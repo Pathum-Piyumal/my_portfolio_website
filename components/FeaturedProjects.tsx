@@ -89,18 +89,18 @@ const projects = [
     isPending: false
   },
   {
-    title: 'SynapseAI Collaborative Grid',
-    description: 'A cloud-based dataset processing environment allowing real-time Python model execution, team sharing notebooks, dynamic canvas visualizers, and pre-trained inference pipelines.',
+    title: 'Sefinity – Academic Learning & Community Platform',
+    description: 'Sefinity is a collaborative academic web platform developed to enhance learning and communication within our university community. The system was designed to support batch-based access, allowing students to securely log in and share academic resources, lecture materials, and updates. It also includes features such as portfolio showcasing, blogs for reflections, and a gallery to preserve batch memories. The project focuses on improving collaboration, knowledge sharing, and engagement among students while laying the foundation for future enhancements like Q&A discussions, tech news integration, and expanded academic tools.',
     category: 'team',
-    tags: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Docker'],
-    role: 'Backend & ML Service Integrations',
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'Git', 'GitHub'],
+    role: 'Lead Frontend & UI/UX Designer',
     imageColor: 'from-amber-500/20 via-orange-500/10 to-transparent',
     borderColor: 'group-hover:border-amber-500/30',
     glowColor: 'rgba(245, 158, 11, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'cpu',
-    techFocus: 'Collaborative AI Runtime',
+    techFocus: 'Web Platform / Academic Project',
     isPending: false
   },
   {
