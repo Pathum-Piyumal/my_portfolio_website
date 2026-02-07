@@ -3,13 +3,34 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+export interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  duration: number;
+  delay: number;
+}
+
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+
+    // Generate random particles only on the client to avoid SSR hydration mismatches
+    const generated = Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 4 + 3,
+      delay: Math.random() * 2,
+    }));
+    setParticles(generated);
 
     let current = 0;
     const interval = setInterval(() => {
@@ -35,16 +56,6 @@ export default function Preloader() {
       document.body.style.overflow = '';
     };
   }, []);
-
-  // Floating particle dots
-  const particles = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 4 + 3,
-    delay: Math.random() * 2,
-  }));
 
   return (
     <AnimatePresence>
