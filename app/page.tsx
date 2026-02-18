@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Architecture from "@/components/Architecture";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Honors from "@/components/Honors";
+import Certifications from "@/components/Certifications";
 import Volunteering from "@/components/Volunteering";
 import CoreCompetencies from "@/components/CoreCompetencies";
 import Footer from "@/components/Footer";
@@ -18,6 +19,7 @@ export default function Home() {
         <Architecture />
         <FeaturedProjects />
         <Honors />
+        <Certifications />
         <Volunteering />
         <CoreCompetencies />
       </main>
