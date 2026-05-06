@@ -33,6 +33,17 @@ function ContactForm() {
     return () => clearInterval(cursorInterval);
   }, []);
 
+  // Track if page mounted with Resume Request referral from Footer
+  useEffect(() => {
+    if (searchParams && searchParams.get('subject') === 'Resume Request') {
+      fetch('/api/telemetry/resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'view_request' })
+      }).catch(err => console.error('Failed to log resume request view telemetry:', err));
+    }
+  }, [searchParams]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -364,6 +375,27 @@ function ContactForm() {
 }
 
 export default function ContactPage() {
+  const handleDownloadResume = async () => {
+    try {
+      // Fire background telemetry request
+      fetch('/api/telemetry/resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'download' })
+      }).catch(err => console.error('Failed to log resume download telemetry:', err));
+
+      // Trigger programmatic download of resume placeholder
+      const link = document.createElement('a');
+      link.href = '/resume.pdf';
+      link.download = 'Pathum_Piyumal_Resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error serving resume file download:', error);
+    }
+  };
+
   // Animation presets
   const fadeInUp = {
     hidden: { opacity: 0, y: 25 },
@@ -578,12 +610,13 @@ export default function ContactPage() {
               </button>
             </Link>
             
-            <Link href="/about">
-              <button className="bg-transparent border border-white/10 text-white px-8 py-3.5 rounded-full font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 cursor-pointer text-sm">
-                <Download className="w-4 h-4 text-portfolio-accent" />
-                Download Resume
-              </button>
-            </Link>
+            <button 
+              onClick={handleDownloadResume}
+              className="bg-transparent border border-white/10 text-white px-8 py-3.5 rounded-full font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 cursor-pointer text-sm"
+            >
+              <Download className="w-4 h-4 text-portfolio-accent" />
+              Download Resume
+            </button>
           </motion.div>
         </motion.section>
       </main>
