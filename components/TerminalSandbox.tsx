@@ -86,6 +86,14 @@ export default function TerminalSandbox() {
                 <span className="text-zinc-500">- Visual capabilities graph</span>
               </div>
               <div className="flex gap-2">
+                <span className="text-portfolio-accent font-bold min-w-[70px]">resume</span>
+                <span className="text-zinc-500">- View resume & CV profile</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-portfolio-accent font-bold min-w-[70px]">download</span>
+                <span className="text-zinc-500">- Fetch physical PDF document</span>
+              </div>
+              <div className="flex gap-2">
                 <span className="text-portfolio-accent font-bold min-w-[70px]">contact</span>
                 <span className="text-zinc-500">- Active networking gateways</span>
               </div>
@@ -204,10 +212,10 @@ export default function TerminalSandbox() {
               <li className="flex items-center gap-2">
                 <span className="text-zinc-500 min-w-[70px]">Email:</span>
                 <a 
-                  href="mailto:pathumkumarathunga@gmail.com" 
+                  href="mailto:pathumpiyumal013@gmail.com" 
                   className="text-portfolio-accent hover:underline font-bold transition-all duration-200"
                 >
-                  pathumkumarathunga@gmail.com
+                  pathumpiyumal013@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
@@ -224,15 +232,90 @@ export default function TerminalSandbox() {
               <li className="flex items-center gap-2">
                 <span className="text-zinc-500 min-w-[70px]">LinkedIn:</span>
                 <a 
-                  href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga/" 
+                  href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-portfolio-accent hover:underline font-bold transition-all duration-200"
                 >
-                  linkedin.com/in/pathum-piyumal-kumarathunga/
+                  linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b
                 </a>
               </li>
             </ul>
+          </div>
+        );
+        break;
+
+      case 'resume':
+      case 'cv':
+      case '/resume':
+      case '/cv':
+        // Trigger telemetry dispatch in background
+        fetch('/api/telemetry/resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'view_request' })
+        }).catch(err => console.error('Failed to log resume view telemetry:', err));
+
+        outputElement = (
+          <div className="font-mono text-xs md:text-sm text-zinc-300 space-y-3.5 select-none max-w-xl">
+            <div className="border border-portfolio-accent/20 rounded-xl bg-portfolio-accent/5 p-4 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-portfolio-accent/10 rounded-bl-full blur-md" />
+              <p className="text-portfolio-accent font-black tracking-widest text-[10px] uppercase mb-1">// TELEMETRY ROUTE INGRESS REGISTERED</p>
+              <h3 className="text-base font-bold text-white mb-2">R.M.P.P. Kumarathunga — Software Engineer</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed mb-3">
+                Software Engineering Undergraduate crafting resilient backend serverless routing, secure rate limiting middleware layers, and low-latency client-side console frameworks.
+              </p>
+              <div className="space-y-1 text-xs text-zinc-300">
+                <p><strong className="text-portfolio-accent">Education:</strong> BSc (Hons) in Software Engineering (Undergrad)</p>
+                <p><strong className="text-portfolio-accent">Core Pillars:</strong> TypeScript, React, Next.js, Node.js, Python, Docker</p>
+                <p><strong className="text-portfolio-accent">Active Syncs:</strong> GitHub Contributions API & WakaTime Telemetry</p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap gap-3 items-center">
+                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">Type "download" or click badge:</span>
+                <button
+                  onClick={() => executeCommand('download')}
+                  className="px-3 py-1 rounded bg-white/5 border border-white/10 hover:border-portfolio-accent/30 text-[10px] font-bold text-portfolio-accent cursor-pointer hover:bg-portfolio-accent/5 transition-all"
+                >
+                  [GET] resume.pdf
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+        break;
+
+      case 'download':
+      case '/download':
+        // Trigger telemetry dispatch in background
+        fetch('/api/telemetry/resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'download' })
+        }).catch(err => console.error('Failed to log resume download telemetry:', err));
+
+        // Programmatic download action
+        try {
+          const dlLink = document.createElement('a');
+          dlLink.href = '/resume.pdf';
+          dlLink.download = 'Pathum_Piyumal_Resume.pdf';
+          document.body.appendChild(dlLink);
+          dlLink.click();
+          document.body.removeChild(dlLink);
+        } catch (e) {
+          console.error(e);
+        }
+
+        outputElement = (
+          <div className="font-mono text-xs md:text-sm text-zinc-300 space-y-2 select-none">
+            <p className="text-emerald-400 font-bold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>TRANSMISSION ACKNOWLEDGED</span>
+            </p>
+            <div className="pl-4 space-y-1 text-zinc-400 text-xs">
+              <p>[CONNECTING] Initiated CV download socket gateway...</p>
+              <p>[STREAMING] Piping /resume.pdf to local client storage...</p>
+              <p className="text-emerald-400 font-bold">[SUCCESS] File transfer complete. (Pathum_Piyumal_Resume.pdf)</p>
+            </div>
           </div>
         );
         break;
@@ -360,6 +443,7 @@ export default function TerminalSandbox() {
                     { label: 'about', desc: 'JSON Developer Profile' },
                     { label: 'projects', desc: 'Deployed App Systems' },
                     { label: 'skills', desc: 'Capabilities Graph' },
+                    { label: 'resume', desc: 'View Resume & CV Profile' },
                     { label: 'contact', desc: 'Active Network Gates' }
                   ].map((badge) => (
                     <button
