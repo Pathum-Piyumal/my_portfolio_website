@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SpotlightCard from '@/components/SpotlightCard';
 import {
@@ -37,11 +37,12 @@ const projects = [
     imageColor: 'from-blue-500/20 via-sky-500/10 to-transparent',
     borderColor: 'group-hover:border-sky-500/30',
     glowColor: 'rgba(56, 189, 248, 0.2)',
-    githubUrl: 'https://github.com/Pathum-Piyumal',
-    liveUrl: 'https://github.com/Pathum-Piyumal',
+    githubUrl: 'https://github.com/Pathum-Piyumal/weather-app',
+    liveUrl: 'https://weather-gb3eh1kwo-pathumas-projects.vercel.app/',
     iconName: 'cloud',
     techFocus: 'Web Development Project',
-    isPending: false
+    isPending: false,
+    repoName: 'weather-app'
   },
   {
     title: 'Interactive Portfolio Canvas',
@@ -52,11 +53,12 @@ const projects = [
     imageColor: 'from-cyan-500/20 via-blue-500/10 to-transparent',
     borderColor: 'group-hover:border-cyan-500/30',
     glowColor: 'rgba(6, 182, 212, 0.2)',
-    githubUrl: 'https://github.com/Pathum-Piyumal',
+    githubUrl: 'https://github.com/Pathum-Piyumal/my_portfolio_website',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'layers',
     techFocus: 'Next.js 16 & React 19',
-    isPending: false
+    isPending: false,
+    repoName: 'my_portfolio_website'
   },
   {
     title: 'Autonomous Dev Agent (Nexus)',
@@ -71,7 +73,8 @@ const projects = [
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'clock',
     techFocus: 'Agentic Workflows',
-    isPending: true
+    isPending: true,
+    repoName: 'local-rag-system'
   },
   {
     title: 'MindEase – Mental Wellness Web App',
@@ -82,11 +85,12 @@ const projects = [
     imageColor: 'from-rose-500/20 via-pink-500/10 to-transparent',
     borderColor: 'group-hover:border-rose-500/30',
     glowColor: 'rgba(244, 63, 94, 0.2)',
-    githubUrl: 'https://github.com/Pathum-Piyumal',
+    githubUrl: 'https://github.com/Pathum-Piyumal/MindEase',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'brain',
     techFocus: 'AI & Wellness Platform',
-    isPending: false
+    isPending: false,
+    repoName: 'mindease'
   },
   {
     title: 'Sefinity – Academic Learning & Community Platform',
@@ -98,10 +102,11 @@ const projects = [
     borderColor: 'group-hover:border-amber-500/30',
     glowColor: 'rgba(245, 158, 11, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
-    liveUrl: 'https://github.com/Pathum-Piyumal',
+    liveUrl: 'https://infinitysusl.com/',
     iconName: 'cpu',
     techFocus: 'Web Platform / Academic Project',
-    isPending: false
+    isPending: false,
+    repoName: 'sefinity'
   },
   {
     title: 'Enterprise Analytics Mesh',
@@ -116,7 +121,8 @@ const projects = [
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'cloud',
     techFocus: 'Cloud Data & DevOps',
-    isPending: true
+    isPending: true,
+    repoName: 'devops-micro-internship'
   }
 ];
 
@@ -152,6 +158,23 @@ const shimmerCSS = `
 
 export default function FeaturedProjects() {
   const [activeTab, setActiveTab] = useState<'all' | 'individual' | 'team'>('all');
+  const [liveRepos, setLiveRepos] = useState<Record<string, { stars: number; forks: number }>>({});
+
+  useEffect(() => {
+    const fetchLiveProjectStats = async () => {
+      try {
+        const res = await fetch('/api/projects');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success && data.repos) {
+          setLiveRepos(data.repos);
+        }
+      } catch (err) {
+        console.error('Error fetching live project stats:', err);
+      }
+    };
+    fetchLiveProjectStats();
+  }, []);
 
   const filteredProjects = projects.filter(project => {
     if (activeTab === 'all') return true;
@@ -257,7 +280,12 @@ export default function FeaturedProjects() {
                 className="h-full"
               >
                 <div
-                  className="group relative flex flex-col bg-zinc-950/40 border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-all duration-500 shadow-2xl hover:shadow-[0_25px_60px_rgba(0,0,0,0.6)] cursor-pointer h-full"
+                  onClick={() => {
+                    if (!project.isPending && project.liveUrl) {
+                      window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+                    }
+                  }}
+                  className="group relative flex flex-col bg-zinc-950/40 border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-all duration-500 shadow-2xl hover:shadow-[0_25px_60px_rgba(0,0,0,0.6)] cursor-pointer h-full active:scale-[0.99]"
                   style={{ ['--glow-color' as any]: project.glowColor }}
                 >
                   {/* Hover glow */}
@@ -288,6 +316,25 @@ export default function FeaturedProjects() {
                       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-black/60 border border-white/10 backdrop-blur-md ${project.category === 'team' ? 'text-[#FFB74D]' : 'text-[#B388FF]'}`}>
                         {project.category === 'team' ? <><Users className="w-2.5 h-2.5" />Team</> : <><User className="w-2.5 h-2.5" />Solo</>}
                       </span>
+                      {(() => {
+                        const repoName = (project as any).repoName;
+                        const repoStats = repoName ? liveRepos[repoName.toLowerCase()] : null;
+                        if (!repoStats) return null;
+                        return (
+                          <>
+                            {repoStats.stars > 0 && (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-mono font-bold bg-black/60 border border-white/10 text-yellow-400 backdrop-blur-md hover:border-yellow-400/30 transition-all duration-300">
+                                ★ {repoStats.stars}
+                              </span>
+                            )}
+                            {repoStats.forks > 0 && (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-mono font-bold bg-black/60 border border-white/10 text-blue-400 backdrop-blur-md hover:border-blue-400/30 transition-all duration-300">
+                                <GitBranch className="w-2.5 h-2.5 text-blue-400" /> {repoStats.forks}
+                              </span>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
 
