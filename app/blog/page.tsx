@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, ArrowRight, Calendar, Clock, BookOpen, Sparkles } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import { techStack } from "@/lib/tech-data";
+import SpotlightCard from "@/components/SpotlightCard";
 
 export default function BlogListingPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -160,11 +161,17 @@ export default function BlogListingPage() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-7xl mx-auto"
             >
               {filteredPosts.map((post) => (
-                <motion.article
+                <motion.div
                   key={post.slug}
                   variants={fadeInUp}
-                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  className="group relative flex flex-col justify-between bg-zinc-900/35 border border-white/5 rounded-2xl p-6 md:p-8 backdrop-blur-md transition-all duration-500 hover:bg-zinc-900/50 hover:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)] overflow-hidden"
+                >
+                  <SpotlightCard
+                    spotlightColor={post.glowColor}
+                    glowColor={post.glowColor}
+                    className="h-full"
+                  >
+                  <article
+                    className="group relative flex flex-col justify-between bg-zinc-900/35 border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-md transition-all duration-500 hover:bg-zinc-900/50 hover:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)] overflow-hidden h-full"
                 >
                   {/* Subtle top accent ambient card cover highlight */}
                   <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${post.coverColor} opacity-70 group-hover:opacity-100 transition-opacity duration-300`} />
@@ -242,7 +249,9 @@ export default function BlogListingPage() {
                       </div>
                     </Link>
                   </div>
-                </motion.article>
+                  </article>
+                  </SpotlightCard>
+                </motion.div>
               ))}
             </motion.div>
           ) : (
