@@ -8,39 +8,40 @@ import { motion } from "framer-motion";
 import { Terminal, Brain, Database, Cloud, Globe, Quote, ArrowRight, Star } from "lucide-react";
 import Honors from "@/components/Honors";
 import Volunteering from "@/components/Volunteering";
+import { techStack } from "@/lib/tech-data";
 
 export default function AboutPage() {
   // Bento Grid layout for the Technical Arsenal
   const skills = [
     {
-      category: "Frontend Development",
+      category: "Frontend & Web Core",
       icon: <Globe className="w-5 h-5 text-[#B388FF]" />,
       iconName: "web",
-      tags: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
+      tags: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS", "Chart.js"],
       spanClass: "md:col-span-2",
       badgeColor: "bg-[#B388FF]/10 text-[#B388FF] border-[#B388FF]/20",
     },
     {
-      category: "Backend",
+      category: "Backend & Databases",
       icon: <Database className="w-5 h-5 text-[#FFB74D]" />,
       iconName: "dns",
-      tags: ["Node.js", "Python", "Go"],
+      tags: ["Node.js", "Express.js", "PHP", "Python", "MongoDB", "MySQL"],
       spanClass: "md:col-span-1",
       badgeColor: "bg-[#FFB74D]/10 text-[#FFB74D] border-[#FFB74D]/20",
     },
     {
-      category: "AI & ML Focus",
+      category: "AI/ML & Data Science",
       icon: <Brain className="w-5 h-5 text-[#4CAF50]" />,
       iconName: "neurology",
-      tags: ["TensorFlow", "PyTorch", "NLP"],
+      tags: ["Python", "NumPy", "Pandas", "Scikit-Learn", "Matplotlib"],
       spanClass: "md:col-span-1",
       badgeColor: "bg-[#4CAF50]/10 text-[#4CAF50] border-[#4CAF50]/20",
     },
     {
-      category: "DevOps & Cloud",
+      category: "DevOps & Cloud Operations",
       icon: <Cloud className="w-5 h-5 text-blue-400" />,
       iconName: "cloud",
-      tags: ["Docker", "Kubernetes", "AWS", "CI/CD"],
+      tags: ["Docker", "Kubernetes", "Jenkins", "AWS"],
       spanClass: "md:col-span-2",
       badgeColor: "bg-blue-400/10 text-blue-400 border-blue-400/20",
     },
@@ -228,14 +229,28 @@ export default function AboutPage() {
 
                   {/* Skills Tag Cloud */}
                   <div className="flex flex-wrap gap-2.5">
-                    {skill.tags.map((tag, tagIdx) => (
-                      <span 
-                        key={tagIdx} 
-                        className={`px-3.5 py-1.5 rounded-lg border text-xs font-medium font-sans tracking-wide transition-all duration-300 bg-white/5 border-white/5 text-zinc-300 group-hover:border-white/10`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {skill.tags.map((tag, tagIdx) => {
+                      const matchedTech = techStack.find(
+                        (tech) => tech.name.toLowerCase() === tag.toLowerCase()
+                      );
+                      return (
+                        <span 
+                          key={tagIdx} 
+                          className={`px-3.5 py-1.5 rounded-lg border text-xs font-semibold font-sans tracking-wide transition-all duration-300 flex items-center gap-2 select-none ${
+                            matchedTech 
+                              ? matchedTech.badgeColor 
+                              : "bg-white/5 border-white/5 text-zinc-300 hover:border-white/10"
+                          }`}
+                        >
+                          {matchedTech && (
+                            <span className="shrink-0 flex items-center justify-center">
+                              {matchedTech.icon("w-3.5 h-3.5")}
+                            </span>
+                          )}
+                          <span>{tag}</span>
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
 
