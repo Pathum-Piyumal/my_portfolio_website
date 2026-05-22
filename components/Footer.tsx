@@ -37,14 +37,17 @@ export default function Footer() {
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center">
-          <span className="text-xl font-bold tracking-tight text-white">DevOS<span className="text-[#FFB74D]">.</span>Core</span>
+          <span className="text-xl font-black tracking-tighter text-white flex items-center gap-1.5 font-sans">
+            <span className="bg-gradient-to-r from-white to-[#B388FF] bg-clip-text text-transparent">RMPK</span>
+            <span className="text-[#B388FF] text-xs font-mono font-bold px-1.5 py-0.5 rounded border border-[#B388FF]/20 bg-[#B388FF]/5">.dev</span>
+          </span>
         </div>
         
         <div className="flex items-center gap-8 text-sm font-medium text-zinc-500">
-          <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
-          <Link href="#" className="hover:text-white transition-colors">LinkedIn</Link>
-          <Link href="#" className="hover:text-white transition-colors">GitHub</Link>
-          <Link href="#" className="hover:text-white transition-colors">Dribbble</Link>
+          <Link href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter</Link>
+          <Link href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</Link>
+          <Link href="https://github.com/Pathum-Piyumal" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</Link>
+          <Link href="https://dribbble.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Dribbble</Link>
         </div>
       </div>
     </footer>

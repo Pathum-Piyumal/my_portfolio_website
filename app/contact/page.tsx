@@ -437,12 +437,12 @@ export default function ContactPage() {
                   <h3 className="font-bold text-white text-base mb-1 tracking-wide">GitHub</h3>
                   <p className="text-zinc-500 text-xs mb-3 font-sans leading-relaxed">Review my technical architecture.</p>
                   <a 
-                    href="https://github.com" 
+                    href="https://github.com/Pathum-Piyumal" 
                     target="_blank" 
                     rel="noreferrer"
                     className="text-blue-400 hover:text-blue-300 font-mono text-xs transition-colors duration-200 flex items-center gap-1"
                   >
-                    <span>@devcommand</span>
+                    <span>@Pathum-Piyumal</span>
                   </a>
                 </div>
               </div>
@@ -468,12 +468,12 @@ export default function ContactPage() {
                   <h3 className="font-bold text-white text-base mb-1 tracking-wide">LinkedIn</h3>
                   <p className="text-zinc-500 text-xs mb-3 font-sans leading-relaxed">Professional history & network.</p>
                   <a 
-                    href="https://linkedin.com" 
+                    href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" 
                     target="_blank" 
                     rel="noreferrer"
                     className="text-[#FFB74D] hover:text-[#ffc570] font-mono text-xs transition-colors duration-200 flex items-center gap-1"
                   >
-                    <span>/in/devcommand</span>
+                    <span>/in/pathum-piyumal-kumarathunga-48185b32b</span>
                   </a>
                 </div>
               </div>
@@ -532,8 +532,8 @@ export default function ContactPage() {
       <footer className="border-t border-white/5 py-8 px-4 md:px-8 bg-zinc-950/60 backdrop-blur-md relative z-10 w-full">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
           <div className="flex items-center gap-1.5">
-            <span className="text-white font-bold">DevCommand</span>
-            <span className="text-[#B388FF]">v1.0</span>
+            <span className="text-white font-bold tracking-tight">RMPK</span>
+            <span className="text-[#B388FF] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[#B388FF]/20 bg-[#B388FF]/5">.dev</span>
           </div>
           
           <div className="text-center">
@@ -541,8 +541,8 @@ export default function ContactPage() {
           </div>
           
           <div className="flex items-center gap-6">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200">GitHub</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200">LinkedIn</a>
+            <a href="https://github.com/Pathum-Piyumal" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200">GitHub</a>
+            <a href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200">LinkedIn</a>
             <Link href="/contact" className="hover:text-white transition-colors duration-200">Terminal</Link>
             <Link href="/about" className="hover:text-white transition-colors duration-200">Documentation</Link>
           </div>

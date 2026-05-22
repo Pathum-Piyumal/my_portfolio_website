@@ -1,4 +1,5 @@
 import { ArrowRight, Code } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -26,14 +27,14 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-wrap items-center gap-4 mb-16">
-            <button className="bg-[#B388FF] text-black px-6 py-3 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.3)]">
+            <Link href="#portfolio" className="bg-[#B388FF] text-black px-6 py-3 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.3)] cursor-pointer">
               Explore Portfolio
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="bg-white/5 border border-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+            </Link>
+            <Link href="https://github.com/Pathum-Piyumal/my_portfolio_website" target="_blank" rel="noreferrer" className="bg-white/5 border border-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors flex items-center gap-2 cursor-pointer">
               <Code className="w-4 h-4" />
               View Repo
-            </button>
+            </Link>
           </div>
         </div>
 

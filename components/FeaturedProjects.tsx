@@ -30,7 +30,7 @@ export default function FeaturedProjects() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Featured Projects</h2>
           <p className="text-zinc-500 text-sm">SELECTED WORK 2021-PRESENT</p>
         </div>
-        <Link href="#" className="flex items-center gap-2 text-sm font-medium text-[#B388FF] hover:text-[#c4a1ff] transition-colors mt-4 md:mt-0">
+        <Link href="https://github.com/Pathum-Piyumal" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-medium text-[#B388FF] hover:text-[#c4a1ff] transition-colors mt-4 md:mt-0">
           View Repository <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

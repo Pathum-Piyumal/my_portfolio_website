@@ -1,6 +1,6 @@
 export default function Architecture() {
   return (
-    <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto w-full">
+    <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto w-full" id="architecture">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Left Side - Graphic */}
         <div className="w-full aspect-[4/3] rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center overflow-hidden relative group">
