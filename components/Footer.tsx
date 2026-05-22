@@ -20,14 +20,18 @@ export default function Footer() {
         </p>
         
         <div className="flex flex-wrap items-center justify-center gap-4 z-10">
-          <button className="bg-[#B388FF] text-black px-8 py-3.5 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.2)]">
-            <MessageSquare className="w-5 h-5" />
-            Let's Talk
-          </button>
-          <button className="bg-zinc-900 border border-white/10 text-white px-8 py-3.5 rounded-full font-medium hover:bg-zinc-800 transition-colors flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            Resume Request
-          </button>
+          <Link href="/contact">
+            <button className="bg-[#B388FF] text-black px-8 py-3.5 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.2)] cursor-pointer">
+              <MessageSquare className="w-5 h-5" />
+              Let's Talk
+            </button>
+          </Link>
+          <Link href="/contact?subject=Resume%20Request">
+            <button className="bg-zinc-900 border border-white/10 text-white px-8 py-3.5 rounded-full font-medium hover:bg-zinc-800 transition-colors flex items-center gap-2 cursor-pointer">
+              <FileText className="w-5 h-5" />
+              Resume Request
+            </button>
+          </Link>
         </div>
       </div>
 
