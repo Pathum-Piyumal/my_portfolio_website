@@ -17,6 +17,7 @@ import {
   GitBranch
 } from 'lucide-react';
 import Link from 'next/link';
+import { techStack } from '@/lib/tech-data';
 
 const categories = [
   { id: 'all', label: 'All Projects', icon: Layers },
@@ -30,7 +31,7 @@ const projects = [
     title: 'AuraML Neural Sandbox',
     description: 'An interactive browser-based visualizer for designing and testing custom deep learning neural network layers. Features real-time loss graph plotting, layer weight metrics, and interactive training feeds.',
     category: 'individual',
-    tags: ['TensorFlow.js', 'React', 'Next.js', 'Tailwind CSS'],
+    tags: ['Python', 'NumPy', 'Matplotlib', 'Scikit-Learn', 'React'],
     role: null,
     imageColor: 'from-purple-500/20 via-[#B388FF]/10 to-transparent',
     borderColor: 'group-hover:border-[#B388FF]/30',
@@ -44,7 +45,7 @@ const projects = [
     title: 'Zenith E-Commerce Core',
     description: 'A resilient full-stack MERN shopping portal featuring modular merchant panels, live Stripe secure gateway processing, Elasticsearch autocomplete indexers, and automated Redis-based inventory synchronization.',
     category: 'individual',
-    tags: ['MongoDB', 'Express', 'React', 'Node.js', 'Redis'],
+    tags: ['MongoDB', 'Express.js', 'React', 'Node.js', 'MySQL'],
     role: null,
     imageColor: 'from-blue-500/20 via-indigo-500/10 to-transparent',
     borderColor: 'group-hover:border-blue-500/30',
@@ -58,7 +59,7 @@ const projects = [
     title: 'CloudGuard Automated CI/CD',
     description: 'A containerized microservices orchestration framework utilizing multi-stage Docker builds, Kubernetes cluster state control, Prometheus telemetry metrics, and automatic AWS cloud landing zones.',
     category: 'individual',
-    tags: ['Docker', 'Kubernetes', 'AWS', 'Terraform', 'CI/CD'],
+    tags: ['Docker', 'Kubernetes', 'Jenkins', 'AWS'],
     role: null,
     imageColor: 'from-emerald-500/20 via-teal-500/10 to-transparent',
     borderColor: 'group-hover:border-emerald-500/30',
@@ -73,7 +74,7 @@ const projects = [
     title: 'PulseConnect Telehealth Grid',
     description: 'A secure doctor-patient consulting platform with end-to-end encrypted high-fidelity WebRTC call routing, dynamic schedules, electronic medical records archiving, and payment gateways.',
     category: 'team',
-    tags: ['React', 'Node.js', 'Socket.io', 'WebRTC', 'MongoDB'],
+    tags: ['React', 'Node.js', 'Express.js', 'MongoDB', 'Chart.js'],
     role: 'Full-Stack Lead & Architect',
     imageColor: 'from-rose-500/20 via-pink-500/10 to-transparent',
     borderColor: 'group-hover:border-rose-500/30',
@@ -87,7 +88,7 @@ const projects = [
     title: 'SynapseAI Collaborative Grid',
     description: 'A cloud-based dataset processing environment allowing real-time Python model execution, team sharing notebooks, dynamic canvas visualizers, and pre-trained inference pipelines.',
     category: 'team',
-    tags: ['Python', 'FastAPI', 'PyTorch', 'Next.js', 'Docker'],
+    tags: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Docker'],
     role: 'Backend & ML Service Integrations',
     imageColor: 'from-amber-500/20 via-orange-500/10 to-transparent',
     borderColor: 'group-hover:border-amber-500/30',
@@ -99,9 +100,9 @@ const projects = [
   },
   {
     title: 'OmniSearch Federated Hub',
-    description: 'A high-throughput search index aggregator indexing massive databases across silo structures with low-latency Redis caching layers, microservices gateway routers, and full Dockerized builds.',
+    description: 'A high-throughput search index aggregator indexing massive databases across silo structures with low-latency caching layers, microservices gateway routers, and full Dockerized builds.',
     category: 'team',
-    tags: ['Go', 'Redis', 'Docker', 'AWS ECS', 'Terraform'],
+    tags: ['PHP', 'MySQL', 'JavaScript', 'Docker', 'AWS'],
     role: 'DevOps & Deployment Coordinator',
     imageColor: 'from-cyan-500/20 via-sky-500/10 to-transparent',
     borderColor: 'group-hover:border-cyan-500/30',
@@ -290,14 +291,28 @@ export default function FeaturedProjects() {
 
                 {/* Footer Tag Cloud */}
                 <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
-                  {project.tags.map(tag => (
-                    <span 
-                      key={tag} 
-                      className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white text-[10px] font-mono rounded-md border border-white/5 transition-all duration-300 cursor-default"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {project.tags.map(tag => {
+                    const matchedTech = techStack.find(
+                      (tech) => tech.name.toLowerCase() === tag.toLowerCase()
+                    );
+                    return (
+                      <span 
+                        key={tag} 
+                        className={`px-2.5 py-1 rounded-md border text-[10px] font-semibold transition-all duration-300 flex items-center gap-1.5 cursor-default select-none ${
+                          matchedTech 
+                            ? matchedTech.badgeColor 
+                            : "bg-white/5 border-white/5 text-zinc-400 hover:border-white/10 hover:bg-white/10"
+                        }`}
+                      >
+                        {matchedTech && (
+                          <span className="shrink-0 flex items-center justify-center">
+                            {matchedTech.icon("w-3 h-3")}
+                          </span>
+                        )}
+                        <span>{tag}</span>
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
