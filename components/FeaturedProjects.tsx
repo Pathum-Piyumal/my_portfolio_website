@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import SpotlightCard from '@/components/SpotlightCard';
 import {
   ArrowRight,
   Layers,
@@ -124,36 +125,7 @@ const getProjectIcon = (iconName: string) => {
   }
 };
 
-// 3D tilt card wrapper
-function TiltCard({ children, glowColor }: { children: React.ReactNode; glowColor: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springConfig = { stiffness: 200, damping: 24 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [7, -7]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-7, 7]), springConfig);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-  const handleMouseLeave = () => { x.set(0); y.set(0); };
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 800 }}
-      whileHover={{ z: 12 }}
-      className="relative"
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 const shimmerCSS = `
   @keyframes shimmerText {
@@ -268,10 +240,14 @@ export default function FeaturedProjects() {
               initial={{ opacity: 0, scale: 0.9, y: 20, filter: 'blur(8px)' }}
               animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, scale: 0.9, y: 20, filter: 'blur(8px)' }}
-              transition={{ duration: 0.45, delay: idx * 0.07, ease: [0.34, 1.56, 0.64, 1] }}
+              transition={{ duration: 0.45, delay: idx * 0.07, ease: [0.34, 1.56, 0.64, 1] as any }}
               key={project.title}
             >
-              <TiltCard glowColor={project.glowColor}>
+              <SpotlightCard
+                spotlightColor={project.glowColor.replace('0.2)', '0.18)')}
+                glowColor={project.glowColor}
+                className="h-full"
+              >
                 <div
                   className="group relative flex flex-col bg-zinc-950/40 border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-all duration-500 shadow-2xl hover:shadow-[0_25px_60px_rgba(0,0,0,0.6)] cursor-pointer h-full"
                   style={{ ['--glow-color' as any]: project.glowColor }}
@@ -341,7 +317,7 @@ export default function FeaturedProjects() {
                     </div>
                   </div>
                 </div>
-              </TiltCard>
+              </SpotlightCard>
             </motion.div>
           ))}
         </AnimatePresence>
