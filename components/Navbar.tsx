@@ -10,6 +10,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const isAboutPage = pathname === '/about';
   const isContactPage = pathname === '/contact';
+  const isBlogPage = pathname.startsWith('/blog');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -18,6 +19,7 @@ export default function Navbar() {
     { name: 'Projects', href: '/#portfolio' },
     { name: 'Credentials', href: '/#certifications' },
     { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -59,8 +61,9 @@ export default function Navbar() {
           {navLinks.map((link, idx) => {
             const isActive = 
               (link.href === '/about' && isAboutPage) || 
+              (link.href === '/blog' && isBlogPage) || 
               (link.href === '/contact' && isContactPage) || 
-              (link.href.startsWith('/#') && !isAboutPage && !isContactPage);
+              (link.href.startsWith('/#') && !isAboutPage && !isContactPage && !isBlogPage);
 
             return (
               <Link 
@@ -131,8 +134,9 @@ export default function Navbar() {
               {navLinks.map((link) => {
                 const isActive = 
                   (link.href === '/about' && isAboutPage) || 
+                  (link.href === '/blog' && isBlogPage) || 
                   (link.href === '/contact' && isContactPage) || 
-                  (link.href.startsWith('/#') && !isAboutPage && !isContactPage);
+                  (link.href.startsWith('/#') && !isAboutPage && !isContactPage && !isBlogPage);
 
                 return (
                   <Link 
