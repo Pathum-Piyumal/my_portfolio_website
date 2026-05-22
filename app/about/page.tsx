@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Terminal, Brain, Database, Cloud, Globe, Quote, ArrowRight, Star } from "lucide-react";
 import Honors from "@/components/Honors";
+import Volunteering from "@/components/Volunteering";
 
 export default function AboutPage() {
   // Bento Grid layout for the Technical Arsenal
@@ -245,6 +246,7 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
+        <Volunteering />
         <Honors />
       </main>
 
