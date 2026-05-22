@@ -50,7 +50,7 @@ export default function Architecture() {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-6 flex flex-col justify-center backdrop-blur-sm">
-              <span className="text-2xl font-bold text-white mb-1">10+</span>
+              <span className="text-2xl font-bold text-white mb-1">3+</span>
               <span className="text-sm font-medium text-zinc-500">Completed Projects</span>
             </div>
             <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-6 flex flex-col justify-center backdrop-blur-sm">

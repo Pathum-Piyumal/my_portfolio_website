@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Architecture from "@/components/Architecture";
 import FeaturedProjects from "@/components/FeaturedProjects";
+import Certifications from "@/components/Certifications";
 import CoreCompetencies from "@/components/CoreCompetencies";
 import Footer from "@/components/Footer";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <Hero />
         <Architecture />
         <FeaturedProjects />
+        <Certifications />
         <CoreCompetencies />
       </main>
       <Footer />

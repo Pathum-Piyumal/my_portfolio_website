@@ -43,6 +43,12 @@ export default function Navbar() {
             Projects
           </Link>
           <Link 
+            href="/#certifications" 
+            className="text-sm font-medium text-zinc-400 hover:text-white px-4 py-1.5 rounded-full transition-colors"
+          >
+            Credentials
+          </Link>
+          <Link 
             href="/about" 
             className={`text-sm font-medium px-4 py-1.5 rounded-full transition-colors ${
               isAboutPage 
@@ -108,6 +114,13 @@ export default function Navbar() {
               className="text-base font-semibold text-zinc-300 hover:text-white py-2 border-b border-white/5 transition-colors"
             >
               Projects
+            </Link>
+            <Link 
+              href="/#certifications" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-base font-semibold text-zinc-300 hover:text-white py-2 border-b border-white/5 transition-colors"
+            >
+              Credentials
             </Link>
             <Link 
               href="/about" 
