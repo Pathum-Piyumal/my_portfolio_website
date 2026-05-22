@@ -4,6 +4,7 @@ import Architecture from "@/components/Architecture";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Certifications from "@/components/Certifications";
 import Honors from "@/components/Honors";
+import Volunteering from "@/components/Volunteering";
 import CoreCompetencies from "@/components/CoreCompetencies";
 import Footer from "@/components/Footer";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <FeaturedProjects />
         <Certifications />
         <Honors />
+        <Volunteering />
         <CoreCompetencies />
       </main>
       <Footer />
