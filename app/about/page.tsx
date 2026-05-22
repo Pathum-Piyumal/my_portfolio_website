@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Terminal, Brain, Database, Cloud, Globe, Quote, ArrowRight, Star } from "lucide-react";
+import Honors from "@/components/Honors";
 
 export default function AboutPage() {
   // Bento Grid layout for the Technical Arsenal
@@ -82,7 +83,7 @@ export default function AboutPage() {
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-zinc-900/80 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF] animate-pulse"></span>
               <span className="text-[10px] md:text-[11px] font-mono tracking-wider text-zinc-300 uppercase">
-                Software Engineer in Progress
+                Software Engineering Undergraduate
               </span>
             </div>
 
@@ -96,9 +97,10 @@ export default function AboutPage() {
 
             {/* Paragraph Bio */}
             <p className="text-zinc-400 text-base md:text-lg mb-8 max-w-xl leading-relaxed">
-              I'm Alex Chen, a Full-Stack Developer bridging the gap between robust backend architecture 
-              and intuitive user interfaces. Currently expanding my expertise into AI/ML engineering to 
-              build the next generation of smart applications.
+              I'm R.M.P.P. Kumarathunga, a Software Engineering Undergraduate and dedicated full-stack 
+              developer. Currently focused on building feature-rich MERN stack projects while actively 
+              expanding my capabilities into DevOps, cloud environments, and AI/ML algorithms to build the 
+              next generation of smart digital solutions.
             </p>
 
             {/* Call To Actions */}
@@ -110,7 +112,7 @@ export default function AboutPage() {
                 </button>
               </Link>
               
-              <Link href="/#contact">
+              <Link href="/contact">
                 <button className="bg-white/5 border border-white/10 text-white px-7 py-3.5 rounded-full text-sm font-medium hover:bg-white/10 transition-all duration-300 hover:border-white/20 transform hover:-translate-y-0.5 cursor-pointer">
                   Contact Me
                 </button>
@@ -128,7 +130,7 @@ export default function AboutPage() {
               {/* Profile Image Asset */}
               <Image 
                 src="/images/alex_portrait.png" 
-                alt="Alex Chen Portrait" 
+                alt="R.M.P.P. Kumarathunga Portrait" 
                 fill
                 priority
                 sizes="(max-w-md) 100vw, 400px"
@@ -242,6 +244,8 @@ export default function AboutPage() {
             ))}
           </div>
         </motion.section>
+
+        <Honors />
       </main>
 
       <Footer />

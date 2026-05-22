@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="100%" height="100%">
+  <!-- Background (Optional, remove for transparency) -->
+  <rect width="32" height="32" rx="6" fill="#0d1117"/>
+
+  <!-- Left Bracket < -->
+  <path d="M 10,10 L 4,16 L 10,22" fill="none" stroke="#B388FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Right Bracket > -->
+  <path d="M 22,10 L 28,16 L 22,22" fill="none" stroke="#B388FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Central Neural Node -->
+  <circle cx="16" cy="16" r="3" fill="#00FFFF"/>
+  
+  <!-- Neural Network Connections / Radiating Lines -->
+  <line x1="16" y1="10" x2="16" y2="13" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="16" y1="19" x2="16" y2="22" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="10" y1="16" x2="13" y2="16" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="19" y1="16" x2="22" y2="16" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

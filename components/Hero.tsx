@@ -1,4 +1,5 @@
 import { ArrowRight, Code } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -12,28 +13,29 @@ export default function Hero() {
         <div className="flex flex-col items-start z-10">
           <div className="flex items-center gap-2 mb-6">
             <span className="text-xs font-bold tracking-wider text-[#FFB74D] uppercase">
-              Senior Engineer <span className="text-zinc-600 px-1">//</span> React <span className="text-zinc-600 px-1">//</span> Next.js <span className="text-zinc-600 px-1">//</span> Node.js
+              Undergraduate Student <span className="text-zinc-600 px-1">//</span> Full-Stack Developer <span className="text-zinc-600 px-1">//</span> MERN Stack <span className="text-zinc-600 px-1">//</span> AI/ML Aspirant
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-            Alex Chen
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+            R.M.P.P. Kumarathunga
           </h1>
           
           <p className="text-lg text-zinc-400 mb-10 max-w-lg leading-relaxed">
-            I build scalable, high-performance web applications and systems. 
-            I am passionate about elegant solutions and clean, maintainable architecture.
+            I am a dedicated software engineering undergraduate student and active learner. 
+            Currently building feature-rich MERN stack projects while expanding my core expertise into 
+            DevOps, cloud environments, and future-forward AI/ML engineering.
           </p>
           
           <div className="flex flex-wrap items-center gap-4 mb-16">
-            <button className="bg-[#B388FF] text-black px-6 py-3 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.3)]">
+            <Link href="#portfolio" className="bg-[#B388FF] text-black px-6 py-3 rounded-full font-bold hover:bg-[#c4a1ff] transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(179,136,255,0.3)] cursor-pointer">
               Explore Portfolio
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="bg-white/5 border border-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+            </Link>
+            <Link href="https://github.com/Pathum-Piyumal/my_portfolio_website" target="_blank" rel="noreferrer" className="bg-white/5 border border-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors flex items-center gap-2 cursor-pointer">
               <Code className="w-4 h-4" />
               View Repo
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -53,7 +55,7 @@ export default function Hero() {
 
       {/* Tech Stack Tags */}
       <div className="mt-20 flex flex-wrap gap-3 items-center justify-center lg:justify-start">
-        {['Next.js', 'React', 'TypeScript', 'Tailwind', 'Node.js', 'Python', 'PostgreSQL'].map((tech) => (
+        {['MERN Stack', 'MongoDB', 'Express.js', 'React', 'Node.js', 'DevOps & Cloud', 'AI/ML Concepts', 'Python'].map((tech) => (
           <span key={tech} className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-zinc-300">
             {tech}
           </span>
