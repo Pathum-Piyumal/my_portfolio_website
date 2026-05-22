@@ -140,7 +140,13 @@ export default function FeaturedProjects() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#B388FF]/5 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       {/* Heading Title Area */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
+      >
         <div>
           {/* Monospace tag */}
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-zinc-900/60 border border-white/5">
@@ -164,10 +170,16 @@ export default function FeaturedProjects() {
           EXPLORE REPOSITORIES 
           <ArrowRight className="w-4 h-4 text-[#B388FF] group-hover/btn:translate-x-1 transition-transform duration-300" />
         </Link>
-      </div>
+      </motion.div>
 
       {/* Segmented Filter Switcher Controls */}
-      <div className="flex justify-center mb-16">
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        className="flex justify-center mb-16"
+      >
         <div className="flex items-center gap-1.5 bg-zinc-950/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 max-w-full overflow-x-auto shadow-2xl relative">
           {categories.map((cat) => {
             const Icon = cat.icon;
@@ -196,7 +208,7 @@ export default function FeaturedProjects() {
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       {/* Projects Grid Container with smooth Framer Motion AnimatePresence layout */}
       <motion.div 

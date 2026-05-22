@@ -14,6 +14,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import Link from 'next/link';
+import { techStack } from '@/lib/tech-data';
 
 const categories = [
   { id: 'all', label: 'All Credentials', icon: Layers },
@@ -126,7 +127,13 @@ export default function Certifications() {
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse" />
 
       {/* Title Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
+      >
         <div>
           {/* Monospace Badge */}
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-zinc-900/60 border border-white/5">
@@ -140,10 +147,16 @@ export default function Certifications() {
             Professional validation in core software sectors
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Segmented Filter Switcher Controls */}
-      <div className="flex justify-center mb-16">
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        className="flex justify-center mb-16"
+      >
         <div className="flex items-center gap-1.5 bg-zinc-950/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 max-w-full overflow-x-auto shadow-2xl relative">
           {categories.map((cat) => {
             const Icon = cat.icon;
@@ -172,7 +185,7 @@ export default function Certifications() {
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       {/* Grid Container for Certifications with Framer Motion layout */}
       <motion.div 
@@ -248,14 +261,28 @@ export default function Certifications() {
                 {/* Verified Tag Cloud */}
                 <div>
                   <div className="flex flex-wrap gap-2 mt-2 pt-4 border-t border-white/5 mb-6">
-                    {cert.skills.map(skill => (
-                      <span 
-                        key={skill} 
-                        className="px-2.5 py-1 bg-white/5 text-zinc-400 text-[9px] font-mono rounded-md border border-white/5 transition-all duration-300"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                    {cert.skills.map(skill => {
+                      const matchedTech = techStack.find(
+                        (tech) => tech.name.toLowerCase() === skill.toLowerCase()
+                      );
+                      return (
+                        <span 
+                          key={skill} 
+                          className={`px-2.5 py-1 rounded-md border text-[10px] font-semibold transition-all duration-300 flex items-center gap-1.5 cursor-default select-none ${
+                            matchedTech 
+                              ? matchedTech.badgeColor 
+                              : "bg-white/5 border-white/5 text-zinc-400 hover:border-white/10 hover:bg-white/10"
+                          }`}
+                        >
+                          {matchedTech && (
+                            <span className="shrink-0 flex items-center justify-center">
+                              {matchedTech.icon("w-3 h-3")}
+                            </span>
+                          )}
+                          <span>{skill}</span>
+                        </span>
+                      );
+                    })}
                   </div>
 
                   {/* Verification Verification Button */}
