@@ -38,24 +38,24 @@ export default function Architecture() {
 
         {/* Right Side - Content */}
         <div className="flex flex-col">
-          <span className="text-sm font-bold tracking-wider text-white mb-2">Architecture</span>
+          <span className="text-sm font-bold tracking-wider text-white mb-2">Architecture & Cloud</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#FFB74D] mb-6">
-            Digital Infrastructure
+            Software Ecosystems
           </h2>
           <p className="text-zinc-400 mb-10 text-lg leading-relaxed">
-            I architect highly scalable, robust systems that drive technical excellence. 
-            By implementing resilient patterns and optimizing performance bottlenecks, 
-            I ensure enterprise-grade capabilities for modern software platforms.
+            I design solid digital ecosystems by integrating clean MERN-stack architectures with modular 
+            cloud deployments and efficient database patterns, ensuring resilient, high-speed execution 
+            for modern web applications.
           </p>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-6 flex flex-col justify-center backdrop-blur-sm">
-              <span className="text-2xl font-bold text-white mb-1">15+</span>
-              <span className="text-sm font-medium text-zinc-500">Years of Experience</span>
+              <span className="text-2xl font-bold text-white mb-1">10+</span>
+              <span className="text-sm font-medium text-zinc-500">Completed Projects</span>
             </div>
             <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-6 flex flex-col justify-center backdrop-blur-sm">
-              <span className="text-2xl font-bold text-[#FFB74D] mb-1">1M+</span>
-              <span className="text-sm font-medium text-zinc-500">Active Daily Users</span>
+              <span className="text-2xl font-bold text-[#FFB74D] mb-1">100%</span>
+              <span className="text-sm font-medium text-zinc-500">Dedicated Learner</span>
             </div>
           </div>
         </div>

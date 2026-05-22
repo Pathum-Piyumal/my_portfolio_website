@@ -75,8 +75,7 @@ export default function Navbar() {
           </button>
           
           {/* Desktop Right Panel Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <span className="text-[10px] tracking-[0.2em] font-mono text-zinc-500 uppercase">Sciences</span>
+          <div className="hidden md:flex items-center">
             <Link href="/contact">
               <button className="bg-[#B388FF] text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-[#c4a1ff] transition-all duration-300 shadow-[0_0_15px_rgba(179,136,255,0.3)] hover:shadow-[0_0_25px_rgba(179,136,255,0.5)] cursor-pointer transform hover:-translate-y-0.5">
                 Hire Me
@@ -130,11 +129,7 @@ export default function Navbar() {
             </Link>
             
             <div className="pt-2 flex flex-col gap-3">
-              <div className="flex items-center gap-2 justify-center">
-                <span className="h-[1px] bg-white/10 flex-1"></span>
-                <span className="text-[9px] tracking-[0.25em] font-mono text-zinc-500 uppercase">Sciences</span>
-                <span className="h-[1px] bg-white/10 flex-1"></span>
-              </div>
+              <div className="h-[1px] bg-white/10 w-full my-1"></div>
               
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
                 <button className="w-full bg-[#B388FF] text-black py-3.5 rounded-xl text-sm font-bold hover:bg-[#c4a1ff] transition-all duration-300 shadow-[0_0_15px_rgba(179,136,255,0.2)] cursor-pointer">
