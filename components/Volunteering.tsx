@@ -20,40 +20,6 @@ const societies = [
       "Preparing to volunteer as a hackathon logistics and developer helper.",
       "Building interactive algorithm visualizations to aid first-year learning groups."
     ]
-  },
-  {
-    name: "Software Engineering Association",
-    focus: "Open Source & Student Tech Programs",
-    statusBadge: "Academic Outreach",
-    statusText: "Proposed Peer Mentor",
-    statusColor: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
-    icon: <Code className="w-6 h-6 text-cyan-400" />,
-    iconBg: "bg-cyan-500/10 border-cyan-500/20 group-hover:border-cyan-500/40",
-    glowColor: "bg-cyan-500/5",
-    colorTheme: "#06B6D4",
-    timeline: "Target Launch: Q4 2026",
-    initiatives: [
-      "Structuring peer programming sessions to support junior undergraduates.",
-      "Co-designing open-source repository templates for university bootcamps.",
-      "Contributing to codebase templates and developer guides for local student projects."
-    ]
-  },
-  {
-    name: "Rotaract Club & Welfare Societies",
-    focus: "Social Impact Software Projects",
-    statusBadge: "Community Service",
-    statusText: "Incoming Tech Volunteer",
-    statusColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
-    icon: <Heart className="w-6 h-6 text-emerald-400" />,
-    iconBg: "bg-emerald-500/10 border-emerald-500/20 group-hover:border-emerald-500/40",
-    glowColor: "bg-emerald-500/5",
-    colorTheme: "#10B981",
-    timeline: "Target Launch: Q3 2026",
-    initiatives: [
-      "Planning to build lightweight web platforms for regional donation collections.",
-      "Proposing basic computer literacy and safe web browsing workshops in schools.",
-      "Designing responsive promotional landing pages for ecological campaigns."
-    ]
   }
 ];
 
@@ -138,7 +104,7 @@ export default function Volunteering() {
       </motion.div>
 
       {/* Society cards — stagger per card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="flex justify-center">
         {societies.map((society, idx) => (
           <motion.div
             key={idx}
@@ -147,7 +113,7 @@ export default function Volunteering() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.65, delay: idx * 0.15, ease: [0.34, 1.56, 0.64, 1] }}
             whileHover={{ y: -8, transition: { type: 'spring', stiffness: 350, damping: 20 } }}
-            className="group relative flex flex-col justify-between overflow-hidden bg-zinc-950/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md transition-all duration-300 hover:bg-zinc-950/60 hover:border-white/10 shadow-2xl hover:shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
+            className="group relative flex flex-col justify-between overflow-hidden bg-zinc-950/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md transition-all duration-300 hover:bg-zinc-950/60 hover:border-white/10 shadow-2xl hover:shadow-[0_25px_50px_rgba(0,0,0,0.5)] max-w-2xl w-full"
           >
             {/* Corner glow */}
             <div className={`absolute top-0 right-0 w-32 h-32 rounded-bl-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 ${society.glowColor}`} />
