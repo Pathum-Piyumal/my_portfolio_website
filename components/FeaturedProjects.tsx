@@ -29,18 +29,18 @@ const categories = [
 
 const projects = [
   {
-    title: 'AuraML Neural Sandbox',
-    description: 'An interactive browser-based visualizer for designing and testing custom deep learning neural network layers. Features real-time loss graph plotting, layer weight metrics, and interactive training feeds.',
+    title: 'Weather Pro – Real-Time Weather Application',
+    description: 'Weather Pro is a simple and responsive web application that provides real-time weather information for any city entered by the user. It uses the OpenWeatherMap API to fetch live weather data such as temperature, weather conditions, and corresponding icons. The application is designed with a clean and user-friendly interface, focusing on smooth user experience, responsiveness across devices, and practical understanding of API integration and frontend development concepts.',
     category: 'individual',
-    tags: ['Python', 'NumPy', 'Matplotlib', 'Scikit-Learn', 'React'],
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'Chart.js'],
     role: null,
-    imageColor: 'from-purple-500/20 via-[#B388FF]/10 to-transparent',
-    borderColor: 'group-hover:border-[#B388FF]/30',
-    glowColor: 'rgba(179, 136, 255, 0.2)',
+    imageColor: 'from-blue-500/20 via-sky-500/10 to-transparent',
+    borderColor: 'group-hover:border-sky-500/30',
+    glowColor: 'rgba(56, 189, 248, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
-    iconName: 'brain',
-    techFocus: 'AI & Deep Learning',
+    iconName: 'cloud',
+    techFocus: 'Web Development Project',
     isPending: false
   },
   {
