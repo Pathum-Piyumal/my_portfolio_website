@@ -74,18 +74,18 @@ const projects = [
     isPending: true
   },
   {
-    title: 'PulseConnect Telehealth Grid',
-    description: 'A secure doctor-patient consulting platform with end-to-end encrypted high-fidelity WebRTC call routing, dynamic schedules, electronic medical records archiving, and payment gateways.',
+    title: 'MindEase – Mental Wellness Web App',
+    description: 'MindEase is a mental wellness-focused web application developed to help users improve emotional awareness and manage stress through interactive digital experiences. The platform includes secure journaling, mood tracking with visual analytics, motivational wellness features, and calming relaxation tools, all built within a secure and scalable architecture designed for future AI-powered enhancements.',
     category: 'team',
-    tags: ['React', 'Node.js', 'Express.js', 'MongoDB', 'Chart.js'],
-    role: 'Full-Stack Lead & Architect',
+    tags: ['PHP', 'JavaScript', 'HTML5', 'CSS3', 'Chart.js'],
+    role: 'Lead Software Engineer & Architect',
     imageColor: 'from-rose-500/20 via-pink-500/10 to-transparent',
     borderColor: 'group-hover:border-rose-500/30',
     glowColor: 'rgba(244, 63, 94, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
-    iconName: 'terminal',
-    techFocus: 'Real-Time MERN Suite',
+    iconName: 'brain',
+    techFocus: 'AI & Wellness Platform',
     isPending: false
   },
   {
