@@ -131,7 +131,7 @@ export default function AboutPage() {
             <div className="relative w-full max-w-sm aspect-square rounded-3xl border border-white/15 bg-zinc-950 overflow-hidden shadow-2xl flex items-center justify-center">
               {/* Profile Image Asset */}
               <Image 
-                src="/images/alex_portrait.png" 
+                src="/images/pathum_portrait.jpg" 
                 alt="R.M.P.P. Kumarathunga Portrait" 
                 fill
                 priority
