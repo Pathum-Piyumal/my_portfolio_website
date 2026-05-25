@@ -47,7 +47,7 @@ export default function Footer() {
           <Link href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter</Link>
           <Link href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</Link>
           <Link href="https://github.com/Pathum-Piyumal" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</Link>
-          <Link href="https://dribbble.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Dribbble</Link>
+          <a href="mailto:pathumpiyumal013@gmail.com" className="hover:text-white transition-colors">Email</a>
         </div>
       </div>
     </footer>

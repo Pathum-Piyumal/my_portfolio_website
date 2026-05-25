@@ -409,10 +409,10 @@ export default function ContactPage() {
                   <h3 className="font-bold text-white text-base mb-1 tracking-wide">Email</h3>
                   <p className="text-zinc-500 text-xs mb-3 font-sans leading-relaxed">Direct line to my inbox.</p>
                   <a 
-                    href="mailto:hello@devcommand.io"
+                    href="mailto:pathumpiyumal013@gmail.com"
                     className="text-[#B388FF] hover:text-[#c4a1ff] font-mono text-xs transition-colors duration-200 flex items-center gap-1"
                   >
-                    <span>hello@devcommand.io</span>
+                    <span>pathumpiyumal013@gmail.com</span>
                   </a>
                 </div>
               </div>
