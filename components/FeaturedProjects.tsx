@@ -15,7 +15,8 @@ import {
   Terminal,
   Cpu,
   Sparkles,
-  GitBranch
+  GitBranch,
+  Clock
 } from 'lucide-react';
 import Link from 'next/link';
 import { techStack } from '@/lib/tech-data';
@@ -39,35 +40,38 @@ const projects = [
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'brain',
-    techFocus: 'AI & Deep Learning'
+    techFocus: 'AI & Deep Learning',
+    isPending: false
   },
   {
-    title: 'Zenith E-Commerce Core',
-    description: 'A resilient full-stack MERN shopping portal featuring modular merchant panels, live Stripe secure gateway processing, Elasticsearch autocomplete indexers, and automated Redis-based inventory synchronization.',
+    title: 'Interactive Portfolio Canvas',
+    description: 'A premium, state-of-the-art interactive digital portfolio engineered with Next.js 16, React 19, TypeScript, and Framer Motion. Engineered for maximum visual impact with high-fidelity micro-interactions, canvas grids, dynamic dark mode accents, and responsive layout structures.',
     category: 'individual',
-    tags: ['MongoDB', 'Express.js', 'React', 'Node.js', 'MySQL'],
+    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
     role: null,
-    imageColor: 'from-blue-500/20 via-indigo-500/10 to-transparent',
-    borderColor: 'group-hover:border-blue-500/30',
-    glowColor: 'rgba(59, 130, 246, 0.2)',
+    imageColor: 'from-cyan-500/20 via-blue-500/10 to-transparent',
+    borderColor: 'group-hover:border-cyan-500/30',
+    glowColor: 'rgba(6, 182, 212, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
-    iconName: 'database',
-    techFocus: 'Full-Stack MERN'
+    iconName: 'layers',
+    techFocus: 'Next.js 16 & React 19',
+    isPending: false
   },
   {
-    title: 'CloudGuard Automated CI/CD',
-    description: 'A containerized microservices orchestration framework utilizing multi-stage Docker builds, Kubernetes cluster state control, Prometheus telemetry metrics, and automatic AWS cloud landing zones.',
+    title: 'Autonomous Dev Agent (Nexus)',
+    description: 'An upcoming solo project designing an autonomous developer agent. Designed to orchestrate complex Git workflows, automate code linters, and utilize multi-model LLM generation feeds to autonomously build and debug Next.js apps.',
     category: 'individual',
-    tags: ['Docker', 'Kubernetes', 'Jenkins', 'AWS'],
+    tags: ['TypeScript', 'Node.js', 'Docker', 'Python'],
     role: null,
-    imageColor: 'from-emerald-500/20 via-teal-500/10 to-transparent',
-    borderColor: 'group-hover:border-emerald-500/30',
-    glowColor: 'rgba(16, 185, 129, 0.2)',
+    imageColor: 'from-amber-500/20 via-orange-500/10 to-transparent',
+    borderColor: 'group-hover:border-amber-500/30',
+    glowColor: 'rgba(245, 158, 11, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
-    iconName: 'cloud',
-    techFocus: 'DevOps & Infrastructure'
+    iconName: 'clock',
+    techFocus: 'Agentic Workflows',
+    isPending: true
   },
   {
     title: 'PulseConnect Telehealth Grid',
@@ -81,7 +85,8 @@ const projects = [
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'terminal',
-    techFocus: 'Real-Time MERN Suite'
+    techFocus: 'Real-Time MERN Suite',
+    isPending: false
   },
   {
     title: 'SynapseAI Collaborative Grid',
@@ -95,21 +100,23 @@ const projects = [
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
     iconName: 'cpu',
-    techFocus: 'Collaborative AI Runtime'
+    techFocus: 'Collaborative AI Runtime',
+    isPending: false
   },
   {
-    title: 'OmniSearch Federated Hub',
-    description: 'A high-throughput search index aggregator indexing massive databases across silo structures with low-latency caching layers, microservices gateway routers, and full Dockerized builds.',
+    title: 'Enterprise Analytics Mesh',
+    description: 'A collaborative, next-generation data analytics mesh designed to integrate real-time Apache Kafka stream processors, unified cloud storage layers, and sub-second SQL queries across multiple enterprise cloud databases.',
     category: 'team',
-    tags: ['PHP', 'MySQL', 'JavaScript', 'Docker', 'AWS'],
-    role: 'DevOps & Deployment Coordinator',
-    imageColor: 'from-cyan-500/20 via-sky-500/10 to-transparent',
-    borderColor: 'group-hover:border-cyan-500/30',
-    glowColor: 'rgba(6, 182, 212, 0.2)',
+    tags: ['Docker', 'Kubernetes', 'AWS', 'MySQL'],
+    role: 'System Architect & DevOps Lead',
+    imageColor: 'from-emerald-500/20 via-teal-500/10 to-transparent',
+    borderColor: 'group-hover:border-emerald-500/30',
+    glowColor: 'rgba(16, 185, 129, 0.2)',
     githubUrl: 'https://github.com/Pathum-Piyumal',
     liveUrl: 'https://github.com/Pathum-Piyumal',
-    iconName: 'layers',
-    techFocus: 'Cloud Infrastructure'
+    iconName: 'cloud',
+    techFocus: 'Cloud Data & DevOps',
+    isPending: true
   }
 ];
 
@@ -121,6 +128,7 @@ const getProjectIcon = (iconName: string) => {
     case 'terminal': return <Terminal className="w-7 h-7 text-rose-400" />;
     case 'cpu': return <Cpu className="w-7 h-7 text-amber-400" />;
     case 'layers': return <Layers className="w-7 h-7 text-cyan-400" />;
+    case 'clock': return <Clock className="w-7 h-7 text-[#FFB74D] animate-pulse" />;
     default: return <Sparkles className="w-7 h-7 text-white" />;
   }
 };
@@ -271,7 +279,12 @@ export default function FeaturedProjects() {
                       {getProjectIcon(project.iconName)}
                     </motion.div>
 
-                    <div className="absolute top-4 right-4 z-20">
+                    <div className="absolute top-4 right-4 z-20 flex gap-2">
+                      {project.isPending && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-amber-500/10 border border-amber-500/20 text-[#FFB74D] backdrop-blur-md animate-pulse">
+                          Pending
+                        </span>
+                      )}
                       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-black/60 border border-white/10 backdrop-blur-md ${project.category === 'team' ? 'text-[#FFB74D]' : 'text-[#B388FF]'}`}>
                         {project.category === 'team' ? <><Users className="w-2.5 h-2.5" />Team</> : <><User className="w-2.5 h-2.5" />Solo</>}
                       </span>
@@ -286,7 +299,9 @@ export default function FeaturedProjects() {
                       </span>
                       <h3 className="text-xl font-bold text-white mb-3 tracking-tight flex items-center gap-2">
                         {project.title}
-                        <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-[#B388FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                        {!project.isPending && (
+                          <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-[#B388FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                        )}
                       </h3>
                       <p className="text-zinc-400 text-[13px] leading-relaxed mb-6">{project.description}</p>
 
