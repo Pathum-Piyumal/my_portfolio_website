@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Architecture from "@/components/Architecture";
 import FeaturedProjects from "@/components/FeaturedProjects";
-import Certifications from "@/components/Certifications";
 import Honors from "@/components/Honors";
 import Volunteering from "@/components/Volunteering";
 import CoreCompetencies from "@/components/CoreCompetencies";
@@ -18,7 +17,6 @@ export default function Home() {
         <Hero />
         <Architecture />
         <FeaturedProjects />
-        <Certifications />
         <Honors />
         <Volunteering />
         <CoreCompetencies />

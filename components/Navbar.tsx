@@ -17,7 +17,6 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Architecture', href: '/#architecture' },
     { name: 'Projects', href: '/#portfolio' },
-    { name: 'Credentials', href: '/#certifications' },
     { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
