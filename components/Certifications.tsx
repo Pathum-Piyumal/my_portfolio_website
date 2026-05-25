@@ -465,9 +465,11 @@ export default function Certifications() {
         {categories.map((cat) => {
           const isActive = selectedCategory === cat.id;
           return (
-            <button
+            <motion.button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
+              whileHover={{ scale: 1.03, y: -0.5 }}
+              whileTap={{ scale: 0.97 }}
               className={`relative flex items-center gap-2 px-4 py-2 rounded-xl md:rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer select-none whitespace-nowrap ${
                 isActive ? 'text-white' : 'text-zinc-400 hover:text-white'
               }`}
@@ -481,7 +483,7 @@ export default function Certifications() {
               )}
               {cat.icon}
               <span>{cat.label}</span>
-            </button>
+            </motion.button>
           );
         })}
       </motion.div>
@@ -492,7 +494,7 @@ export default function Certifications() {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <AnimatePresence mode="popLayout">
-          {filteredCertifications.map((cert) => {
+          {filteredCertifications.map((cert, idx) => {
             const theme = getCategoryTheme(cert.category);
             const isExpanded = !!expandedCards[cert.title];
             const hasId = cert.credentialId !== null && cert.credentialId !== 'Not Provided';
@@ -501,10 +503,15 @@ export default function Certifications() {
               <motion.div
                 layout
                 key={cert.title}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 35, scale: 0.96, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-60px' }}
                 exit={{ opacity: 0, scale: 0.92, filter: 'blur(4px)' }}
-                transition={{ duration: 0.45 }}
+                transition={{ 
+                  duration: 0.55, 
+                  delay: idx * 0.04, 
+                  ease: [0.25, 0.46, 0.45, 0.94] 
+                }}
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
                 onClick={() => toggleExpand(cert.title)}
                 className={`group relative overflow-hidden bg-zinc-950/40 border border-white/5 rounded-3xl p-6 flex flex-col justify-between backdrop-blur-md transition-all duration-500 hover:bg-zinc-950/60 ${theme.border} shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer`}
