@@ -6,6 +6,7 @@ import Honors from "@/components/Honors";
 import Certifications from "@/components/Certifications";
 import Volunteering from "@/components/Volunteering";
 import CoreCompetencies from "@/components/CoreCompetencies";
+import TerminalSandbox from "@/components/TerminalSandbox";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 
@@ -22,6 +23,7 @@ export default function Home() {
         <Certifications />
         <Volunteering />
         <CoreCompetencies />
+        <TerminalSandbox />
       </main>
       <Footer />
     </div>

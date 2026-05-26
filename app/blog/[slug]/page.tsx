@@ -5,10 +5,45 @@ import { useState } from 'react';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, Clock, Sparkles, BookOpen, ChevronRight } from "lucide-react";
+import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Calendar, Clock, Sparkles, BookOpen, ChevronRight, Link as LinkIcon, Check } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import { techStack } from "@/lib/tech-data";
+
+// Resilient inline SVG brand icon components to prevent compilation discrepancies
+function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
+function TwitterIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={className}
+    >
+      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+    </svg>
+  );
+}
 
 // Custom code component to handle high-fidelity syntax blocks & copying
 function CodeContainer({ code, language }: { code: string; language: string }) {
@@ -89,6 +124,41 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
 
   const post = blogPosts.find((p) => p.slug === slug);
 
+  // Scroll progress indicators
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const [shareUrl, setShareUrl] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  React.useEffect(() => {
+    setShareUrl(window.location.href);
+  }, []);
+
+  // SEO document title dynamic sync
+  React.useEffect(() => {
+    if (post) {
+      document.title = `${post.title} | Pathum Piyumal | Dev Blog`;
+    }
+  }, [post]);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link: ", err);
+    }
+  };
+
+  const shareLinkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+  const shareTwitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`Check out this deep dive article: "${post?.title || ''}" by Pathum Piyumal!`)}`;
+
   // If post slug does not exist
   if (!post) {
     return (
@@ -116,6 +186,11 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-portfolio-accent/30 text-white overflow-x-hidden">
+      {/* Glowing Top Scroll Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-[3.5px] bg-portfolio-accent origin-left z-[100] shadow-[0_1px_10px_var(--color-portfolio-accent)]"
+        style={{ scaleX }}
+      />
       <Navbar />
 
       {/* Dynamic ambient backdrop spotlight */}
@@ -230,6 +305,52 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
           })}
         </article>
 
+        {/* ================= POST SHARE PORTAL ================= */}
+        <div className="mt-12 p-6 md:p-8 bg-zinc-900/20 border border-white/5 rounded-3xl backdrop-blur-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="absolute inset-x-8 -top-[1px] h-[1px] bg-gradient-to-r from-transparent via-portfolio-accent/10 to-transparent" />
+          
+          <div className="text-center md:text-left">
+            <h4 className="text-base font-bold text-white mb-1">Found this write-up helpful?</h4>
+            <p className="text-zinc-400 text-xs md:text-sm">Spread the knowledge by sharing this article with your professional network!</p>
+          </div>
+
+          <div className="flex items-center gap-3 select-none">
+            {/* LinkedIn Share */}
+            <a 
+              href={shareLinkedInUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 px-4.5 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:border-portfolio-accent/30 text-xs font-bold font-mono tracking-wider text-zinc-300 hover:text-white hover:bg-portfolio-accent/5 active:scale-95 transition-all duration-300"
+              aria-label="Share on LinkedIn"
+            >
+              <LinkedinIcon className="w-3.5 h-3.5 text-portfolio-accent" />
+              <span>LINKEDIN</span>
+            </a>
+
+            {/* X Share */}
+            <a 
+              href={shareTwitterUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 px-4.5 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:border-portfolio-accent/30 text-xs font-bold font-mono tracking-wider text-zinc-300 hover:text-white hover:bg-portfolio-accent/5 active:scale-95 transition-all duration-300"
+              aria-label="Share on X"
+            >
+              <TwitterIcon className="w-3.5 h-3.5 text-portfolio-accent" />
+              <span>SHARE ON X</span>
+            </a>
+
+            {/* Copy link button */}
+            <button 
+              onClick={copyToClipboard}
+              className="flex items-center gap-2 px-4.5 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:border-portfolio-accent/30 text-xs font-bold font-mono tracking-wider text-zinc-300 hover:text-white hover:bg-portfolio-accent/5 active:scale-95 transition-all duration-300 cursor-pointer relative"
+              aria-label="Copy link to clipboard"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400 animate-bounce" /> : <LinkIcon className="w-3.5 h-3.5 text-portfolio-accent" />}
+              <span>{copied ? "COPIED!" : "COPY LINK"}</span>
+            </button>
+          </div>
+        </div>
+
         {/* ================= POST FOOTER (ENG CORE PRACTICED) ================= */}
         <footer className="mt-16 pt-10 border-t border-white/10">
           <h4 className="text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase mb-6">
@@ -262,6 +383,63 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
         </footer>
 
       </main>
+
+      {/* Desktop Floating Share Panel */}
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3.5 bg-zinc-950/75 backdrop-blur-xl border border-white/10 rounded-full px-3 py-6 shadow-2xl z-40 select-none">
+        <span 
+          className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-2"
+          style={{ writingMode: 'vertical-lr', textTransform: 'uppercase' }}
+        >
+          Share
+        </span>
+        
+        {/* LinkedIn Share */}
+        <a 
+          href={shareLinkedInUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-portfolio-accent hover:border-portfolio-accent/30 hover:bg-portfolio-accent/5 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
+          title="Share to LinkedIn"
+          aria-label="Share on LinkedIn"
+        >
+          <LinkedinIcon className="w-4 h-4" />
+        </a>
+
+        {/* X (Twitter) Share */}
+        <a 
+          href={shareTwitterUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-portfolio-accent hover:border-portfolio-accent/30 hover:bg-portfolio-accent/5 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
+          title="Share to X (Twitter)"
+          aria-label="Share on X (Twitter)"
+        >
+          <TwitterIcon className="w-4 h-4" />
+        </a>
+
+        {/* Clipboard Link Copy */}
+        <button 
+          onClick={copyToClipboard}
+          className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-portfolio-accent hover:border-portfolio-accent/30 hover:bg-portfolio-accent/5 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer relative flex items-center justify-center"
+          title="Copy Link to Clipboard"
+          aria-label="Copy article link"
+        >
+          {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <LinkIcon className="w-4 h-4" />}
+          
+          <AnimatePresence>
+            {copied && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 30 }}
+                exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded bg-emerald-500 text-black font-mono font-bold text-[9px] uppercase shadow-lg select-none pointer-events-none whitespace-nowrap"
+              >
+                Copied!
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+      </div>
 
       <Footer />
     </div>
