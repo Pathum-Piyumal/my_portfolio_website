@@ -55,12 +55,12 @@ export default function BlogListingPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-[#B388FF]/30 text-white overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-portfolio-accent/30 text-white overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto w-full relative z-10">
         {/* Dynamic Abstract Ambient Background Glows */}
-        <div className="absolute top-20 left-1/4 w-[350px] h-[350px] bg-[#B388FF]/10 rounded-full blur-[120px] -z-10 pointer-events-none animate-pulse" />
+        <div className="absolute top-20 left-1/4 w-[350px] h-[350px] bg-portfolio-accent/10 rounded-full blur-[120px] -z-10 pointer-events-none animate-pulse" />
         <div className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-blue-500/5 rounded-full blur-[130px] -z-10 pointer-events-none" />
 
         {/* ================= PAGE HEADER ================= */}
@@ -72,7 +72,7 @@ export default function BlogListingPage() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-zinc-900/80 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#B388FF] animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-portfolio-accent animate-pulse" />
             <span className="text-[10px] md:text-[11px] font-mono tracking-widest text-zinc-300 uppercase">
               Technical Archives & Write-ups
             </span>
@@ -86,7 +86,7 @@ export default function BlogListingPage() {
             className="text-4xl md:text-6xl font-black tracking-tight text-white mb-6 leading-tight"
           >
             Developer{" "}
-            <span className="bg-gradient-to-r from-white via-zinc-300 to-[#B388FF] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-zinc-300 to-portfolio-accent bg-clip-text text-transparent">
               Insights & Deep Dives
             </span>
           </motion.h1>
@@ -111,17 +111,17 @@ export default function BlogListingPage() {
           className="flex flex-col gap-6 w-full max-w-4xl mx-auto mb-16 p-4 md:p-6 bg-zinc-900/25 border border-white/5 rounded-3xl backdrop-blur-md shadow-2xl relative"
         >
           {/* Inner ambient shine accent */}
-          <div className="absolute inset-x-8 -top-[1px] h-[1px] bg-gradient-to-r from-transparent via-[#B388FF]/10 to-transparent" />
+          <div className="absolute inset-x-8 -top-[1px] h-[1px] bg-gradient-to-r from-transparent via-portfolio-accent/10 to-transparent" />
 
           {/* Dynamic Search Input */}
           <div className="relative w-full group">
-            <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-[#B388FF] transition-colors duration-300" />
+            <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-portfolio-accent transition-colors duration-300" />
             <input
               type="text"
               placeholder="Search by keywords, tags, or components..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-6 py-4 bg-zinc-950/80 border border-white/10 rounded-2xl text-sm md:text-base font-sans tracking-wide text-white placeholder-zinc-500 focus:outline-none focus:border-[#B388FF]/40 focus:ring-1 focus:ring-[#B388FF]/30 transition-all duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]"
+              className="w-full pl-12 pr-6 py-4 bg-zinc-950/80 border border-white/10 rounded-2xl text-sm md:text-base font-sans tracking-wide text-white placeholder-zinc-500 focus:outline-none focus:border-portfolio-accent/40 focus:ring-1 focus:ring-portfolio-accent/30 transition-all duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]"
             />
           </div>
 
@@ -137,7 +137,7 @@ export default function BlogListingPage() {
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 rounded-xl text-xs md:text-sm font-medium tracking-wide border transition-all duration-300 cursor-pointer ${
                       isActive
-                        ? "bg-[#B388FF] text-black border-[#B388FF] shadow-[0_0_15px_rgba(179,136,255,0.25)] font-semibold"
+                        ? "bg-portfolio-accent text-black border-portfolio-accent shadow-[0_0_15px_rgba(var(--portfolio-accent),0.25)] font-semibold"
                         : "bg-white/5 border-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/10"
                     }`}
                   >
@@ -186,7 +186,7 @@ export default function BlogListingPage() {
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-5 text-[11px] font-mono text-zinc-500">
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-[#B388FF]/70" />
+                        <Calendar className="w-3.5 h-3.5 text-portfolio-accent/70" />
                         <span>{post.date}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -196,7 +196,7 @@ export default function BlogListingPage() {
                     </div>
 
                     {/* Category Stamp */}
-                    <span className="inline-block text-[9px] font-mono font-bold tracking-widest text-[#B388FF] uppercase border border-[#B388FF]/30 px-2 py-0.5 rounded bg-[#B388FF]/5 mb-4 shadow-[0_0_8px_rgba(179,136,255,0.05)]">
+                    <span className="inline-block text-[9px] font-mono font-bold tracking-widest text-portfolio-accent uppercase border border-portfolio-accent/30 px-2 py-0.5 rounded bg-portfolio-accent/5 mb-4 shadow-[0_0_8px_rgba(var(--portfolio-accent),0.05)]">
                       {post.category}
                     </span>
 
@@ -243,8 +243,8 @@ export default function BlogListingPage() {
                     <Link href={`/blog/${post.slug}`} className="block">
                       <div className="w-full flex items-center justify-between text-xs font-bold font-mono tracking-wider text-zinc-400 group-hover:text-white pt-4 border-t border-white/5 transition-colors duration-300 cursor-pointer">
                         <span>READ ARTICLE</span>
-                        <div className="flex items-center justify-center p-1.5 rounded-full bg-white/5 border border-white/10 group-hover:border-[#B388FF]/30 group-hover:bg-[#B388FF]/10 transition-all duration-300">
-                          <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#B388FF] group-hover:translate-x-0.5 transition-all duration-300" />
+                        <div className="flex items-center justify-center p-1.5 rounded-full bg-white/5 border border-white/10 group-hover:border-portfolio-accent/30 group-hover:bg-portfolio-accent/10 transition-all duration-300">
+                          <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-portfolio-accent group-hover:translate-x-0.5 transition-all duration-300" />
                         </div>
                       </div>
                     </Link>
@@ -263,14 +263,14 @@ export default function BlogListingPage() {
               exit={{ opacity: 0, y: -10 }}
               className="text-center py-20 bg-zinc-950/40 border border-white/5 rounded-3xl max-w-xl mx-auto px-6 backdrop-blur-sm"
             >
-              <BookOpen className="w-12 h-12 text-[#B388FF] opacity-35 mx-auto mb-4 animate-bounce" />
+              <BookOpen className="w-12 h-12 text-portfolio-accent opacity-35 mx-auto mb-4 animate-bounce" />
               <h3 className="text-xl font-bold text-white mb-2">No Articles Found</h3>
               <p className="text-zinc-500 text-sm max-w-xs mx-auto leading-relaxed">
                 We couldn't find any write-ups matching "{searchQuery}". Try modifying your keywords or selecting another category.
               </p>
               <button 
                 onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
-                className="mt-6 text-xs font-bold font-mono tracking-widest text-[#B388FF] border-b border-[#B388FF]/30 hover:border-[#B388FF] pb-0.5 transition-all duration-300 cursor-pointer"
+                className="mt-6 text-xs font-bold font-mono tracking-widest text-portfolio-accent border-b border-portfolio-accent/30 hover:border-portfolio-accent pb-0.5 transition-all duration-300 cursor-pointer"
               >
                 CLEAR FILTER RULES
               </button>

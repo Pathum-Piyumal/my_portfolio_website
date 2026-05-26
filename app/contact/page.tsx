@@ -119,7 +119,7 @@ function ContactForm() {
               {/* Name field */}
               <div className="space-y-2">
                 <label className="text-xs font-mono tracking-widest text-zinc-400 uppercase flex items-center gap-1.5">
-                  Name {activeField === 'name' && <span className="text-[#B388FF] text-[10px] animate-pulse">● active</span>}
+                  Name {activeField === 'name' && <span className="text-portfolio-accent text-[10px] animate-pulse">● active</span>}
                 </label>
                 <div className="relative">
                   <input
@@ -131,7 +131,7 @@ function ContactForm() {
                     onFocus={() => setActiveField('name')}
                     onBlur={() => setActiveField(null)}
                     placeholder="John Doe"
-                    className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-[#B388FF]/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
+                    className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-portfolio-accent/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
                   />
                 </div>
               </div>
@@ -139,7 +139,7 @@ function ContactForm() {
               {/* Email field */}
               <div className="space-y-2">
                 <label className="text-xs font-mono tracking-widest text-zinc-400 uppercase flex items-center gap-1.5">
-                  Email {activeField === 'email' && <span className="text-[#B388FF] text-[10px] animate-pulse">● active</span>}
+                  Email {activeField === 'email' && <span className="text-portfolio-accent text-[10px] animate-pulse">● active</span>}
                 </label>
                 <div className="relative">
                   <input
@@ -151,7 +151,7 @@ function ContactForm() {
                     onFocus={() => setActiveField('email')}
                     onBlur={() => setActiveField(null)}
                     placeholder="john@domain.com"
-                    className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-[#B388FF]/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
+                    className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-portfolio-accent/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
                   />
                 </div>
               </div>
@@ -160,7 +160,7 @@ function ContactForm() {
             {/* Subject field */}
             <div className="space-y-2">
               <label className="text-xs font-mono tracking-widest text-zinc-400 uppercase flex items-center gap-1.5">
-                Subject {activeField === 'subject' && <span className="text-[#B388FF] text-[10px] animate-pulse">● active</span>}
+                Subject {activeField === 'subject' && <span className="text-portfolio-accent text-[10px] animate-pulse">● active</span>}
               </label>
               <div className="relative">
                 <input
@@ -172,7 +172,7 @@ function ContactForm() {
                   onFocus={() => setActiveField('subject')}
                   onBlur={() => setActiveField(null)}
                   placeholder="Project Inquiry / Role Opportunity"
-                  className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-[#B388FF]/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
+                  className="w-full h-12 bg-white text-zinc-900 placeholder:text-zinc-400 rounded-xl px-4 font-sans text-sm outline-none transition-all duration-300 font-medium focus:ring-2 focus:ring-portfolio-accent/30 border border-transparent shadow-[0_4px_12px_rgba(255,255,255,0.05)]"
                 />
               </div>
             </div>
@@ -181,11 +181,11 @@ function ContactForm() {
             <div className="space-y-2">
               <label className="text-xs font-mono tracking-widest text-zinc-400 uppercase flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
-                  Message {activeField === 'message' && <span className="text-[#B388FF] text-[10px] animate-pulse">● encoding</span>}
+                  Message {activeField === 'message' && <span className="text-portfolio-accent text-[10px] animate-pulse">● encoding</span>}
                 </span>
                 <span className="text-[10px] text-zinc-500 font-normal">CHARACTERS: {formData.message.length}</span>
               </label>
-              <div className="relative group/textarea rounded-xl border border-white/10 bg-black/40 overflow-hidden focus-within:border-[#B388FF]/40 transition-colors duration-300">
+              <div className="relative group/textarea rounded-xl border border-white/10 bg-black/40 overflow-hidden focus-within:border-portfolio-accent/40 transition-colors duration-300">
                 <textarea
                   name="message"
                   required
@@ -211,13 +211,13 @@ function ContactForm() {
             <div className="flex justify-end pt-4">
               <button
                 type="submit"
-                className="bg-zinc-800 hover:bg-zinc-700/80 border border-white/10 text-white font-mono text-xs font-bold tracking-wider uppercase px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 group cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(179,136,255,0.15)] hover:border-[#B388FF]/30 active:scale-[0.98]"
+                className="bg-zinc-800 hover:bg-zinc-700/80 border border-white/10 text-white font-mono text-xs font-bold tracking-wider uppercase px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 group cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(var(--portfolio-accent),0.15)] hover:border-portfolio-accent/30 active:scale-[0.98]"
               >
                 <span>Send Message</span>
-                <span className="text-[#B388FF] group-hover:translate-x-1 transition-transform duration-300">
+                <span className="text-portfolio-accent group-hover:translate-x-1 transition-transform duration-300">
                   ssh://
                 </span>
-                <ChevronRight className="w-3.5 h-3.5 text-[#B388FF]" />
+                <ChevronRight className="w-3.5 h-3.5 text-portfolio-accent" />
               </button>
             </div>
           </motion.form>
@@ -281,7 +281,7 @@ function ContactForm() {
               <p className="text-zinc-400 text-sm leading-relaxed">
                 Thank you, <strong className="text-white font-medium">{formData.name}</strong>. Your message was encrypted and logged successfully in my core database system under subject:
               </p>
-              <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs font-mono text-[#B388FF] inline-block max-w-full truncate">
+              <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs font-mono text-portfolio-accent inline-block max-w-full truncate">
                 {formData.subject}
               </div>
               <p className="text-zinc-500 text-xs mt-2 leading-relaxed">
@@ -293,7 +293,7 @@ function ContactForm() {
               onClick={handleReset}
               className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-mono text-xs font-semibold px-6 py-3 rounded-full transition-all duration-300 cursor-pointer flex items-center gap-2 mt-4 hover:border-white/20 hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Terminal className="w-4 h-4 text-[#B388FF]" />
+              <Terminal className="w-4 h-4 text-portfolio-accent" />
               Send Another Transmission
             </button>
           </motion.div>
@@ -321,12 +321,12 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-[#B388FF]/30 text-white overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-portfolio-accent/30 text-white overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto w-full relative z-10">
         {/* Dynamic Abstract Ambient Background Glows */}
-        <div className="absolute top-20 left-1/4 w-[400px] h-[400px] bg-[#B388FF]/10 rounded-full blur-[130px] -z-10 pointer-events-none animate-pulse" />
+        <div className="absolute top-20 left-1/4 w-[400px] h-[400px] bg-portfolio-accent/10 rounded-full blur-[130px] -z-10 pointer-events-none animate-pulse" />
         <div className="absolute bottom-20 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[130px] -z-10 pointer-events-none" />
 
         {/* ================= HERO / HEADER SECTION ================= */}
@@ -341,8 +341,8 @@ export default function ContactPage() {
             variants={fadeInUp}
             className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-zinc-900/80 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF] animate-pulse"></span>
-            <span className="text-[10px] md:text-[11px] font-mono tracking-widest text-[#B388FF] uppercase font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-portfolio-accent shadow-[0_0_8px_var(--color-portfolio-accent)] animate-pulse"></span>
+            <span className="text-[10px] md:text-[11px] font-mono tracking-widest text-portfolio-accent uppercase font-bold">
               # let's connect
             </span>
           </motion.div>
@@ -353,7 +353,7 @@ export default function ContactPage() {
             className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-tight"
           >
             Let's Build Something<br />
-            <span className="bg-gradient-to-r from-white via-zinc-200 to-[#B388FF] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-zinc-200 to-portfolio-accent bg-clip-text text-transparent">
               Meaningful Together
             </span>
           </motion.h1>
@@ -376,7 +376,7 @@ export default function ContactPage() {
               <span>Response Time: 24-48h</span>
             </div>
             <div className="flex items-center gap-1.5 pl-4 text-zinc-300">
-              <Sparkles className="w-3.5 h-3.5 text-[#B388FF] animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-portfolio-accent animate-pulse" />
               <span>Open for Roles & Collabs</span>
             </div>
           </motion.div>
@@ -399,18 +399,18 @@ export default function ContactPage() {
               className="group relative bg-zinc-900/35 border border-white/5 rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:bg-zinc-900/50 hover:border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.3)] overflow-hidden"
             >
               {/* Card glowing accent */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-[#B388FF]/5 rounded-bl-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-20 h-20 bg-portfolio-accent/5 rounded-bl-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               
               <div className="flex flex-col gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#B388FF]/30 group-hover:bg-[#B388FF]/5 transition-all duration-300 shadow-md">
-                  <Mail className="w-5 h-5 text-[#B388FF]" />
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-portfolio-accent/30 group-hover:bg-portfolio-accent/5 transition-all duration-300 shadow-md">
+                  <Mail className="w-5 h-5 text-portfolio-accent" />
                 </div>
                 <div>
                   <h3 className="font-bold text-white text-base mb-1 tracking-wide">Email</h3>
                   <p className="text-zinc-500 text-xs mb-3 font-sans leading-relaxed">Direct line to my inbox.</p>
                   <a 
                     href="mailto:pathumpiyumal013@gmail.com"
-                    className="text-[#B388FF] hover:text-[#c4a1ff] font-mono text-xs transition-colors duration-200 flex items-center gap-1"
+                    className="text-portfolio-accent hover:opacity-80 font-mono text-xs transition-colors duration-200 flex items-center gap-1"
                   >
                     <span>pathumpiyumal013@gmail.com</span>
                   </a>
@@ -520,7 +520,7 @@ export default function ContactPage() {
             
             <Link href="/about">
               <button className="bg-transparent border border-white/10 text-white px-8 py-3.5 rounded-full font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 cursor-pointer text-sm">
-                <Download className="w-4 h-4 text-[#B388FF]" />
+                <Download className="w-4 h-4 text-portfolio-accent" />
                 Download Resume
               </button>
             </Link>
@@ -533,7 +533,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
           <div className="flex items-center gap-1.5">
             <span className="text-white font-bold tracking-tight">RMPK</span>
-            <span className="text-[#B388FF] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[#B388FF]/20 bg-[#B388FF]/5">.dev</span>
+            <span className="text-portfolio-accent text-[10px] font-mono px-1.5 py-0.5 rounded border border-portfolio-accent/20 bg-portfolio-accent/5">.dev</span>
           </div>
           
           <div className="text-center">

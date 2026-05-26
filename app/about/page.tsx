@@ -70,7 +70,7 @@ export default function AboutPage() {
 
       <main className="flex-1 pt-32 pb-16 px-4 md:px-8 max-w-7xl mx-auto w-full relative z-10">
         {/* Dynamic Abstract Ambient Background Glows */}
-        <div className="absolute top-40 left-1/4 w-[400px] h-[400px] bg-[#B388FF]/10 rounded-full blur-[120px] -z-10 pointer-events-none animate-pulse" />
+        <div className="absolute top-40 left-1/4 w-[400px] h-[400px] bg-portfolio-accent/10 rounded-full blur-[120px] -z-10 pointer-events-none animate-pulse" />
         <div className="absolute bottom-40 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] -z-10 pointer-events-none" />
 
         {/* ================= HERO / BIO SECTION ================= */}
@@ -84,7 +84,7 @@ export default function AboutPage() {
           <motion.div variants={fadeInUp} className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Monospace Pill */}
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-zinc-900/80 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF] animate-pulse"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-portfolio-accent shadow-[0_0_8px_var(--color-portfolio-accent)] animate-pulse"></span>
               <span className="text-[10px] md:text-[11px] font-mono tracking-wider text-zinc-300 uppercase">
                 Software Engineering Undergraduate
               </span>
@@ -93,7 +93,7 @@ export default function AboutPage() {
             {/* Rich Headline with Gradient */}
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-tight">
               Building Scalable Systems &{" "}
-              <span className="bg-gradient-to-r from-white via-zinc-300 to-[#B388FF] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white via-zinc-300 to-portfolio-accent bg-clip-text text-transparent">
                 High-Fidelity Experiences
               </span>
             </h1>
@@ -109,7 +109,7 @@ export default function AboutPage() {
             {/* Call To Actions */}
             <div className="flex flex-wrap items-center gap-4">
               <Link href="/#portfolio">
-                <button className="bg-[#B388FF] text-black px-7 py-3.5 rounded-full text-sm font-bold hover:bg-[#c4a1ff] transition-all duration-300 shadow-[0_0_20px_rgba(179,136,255,0.2)] hover:shadow-[0_0_30px_rgba(179,136,255,0.45)] transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
+                <button className="bg-portfolio-accent text-black px-7 py-3.5 rounded-full text-sm font-bold hover:bg-portfolio-accent/90 transition-all duration-300 shadow-[0_0_20px_rgba(var(--portfolio-accent),0.2)] hover:shadow-[0_0_30px_rgba(var(--portfolio-accent),0.45)] transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
                   View Projects
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -126,7 +126,7 @@ export default function AboutPage() {
           {/* Right Portrait Component */}
           <motion.div variants={fadeInUp} className="lg:col-span-5 flex justify-center relative group">
             {/* Sleek Outer Glow Backdrop */}
-            <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#B388FF]/30 to-blue-500/20 rounded-[32px] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 -z-10" />
+            <div className="absolute -inset-1.5 bg-gradient-to-tr from-portfolio-accent/30 to-blue-500/20 rounded-[32px] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 -z-10" />
 
             {/* Portrait Card */}
             <div className="relative w-full max-w-sm aspect-square rounded-3xl border border-white/15 bg-zinc-950 overflow-hidden shadow-2xl flex items-center justify-center">
@@ -145,14 +145,14 @@ export default function AboutPage() {
 
               {/* Floating Monospace Badges */}
               {/* Badge 1: Top-Left */}
-              <div className="absolute top-6 left-6 bg-black/80 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 shadow-xl z-20 hover:border-[#B388FF]/40 transition-colors duration-300">
-                <Terminal className="w-3.5 h-3.5 text-[#B388FF]" />
+              <div className="absolute top-6 left-6 bg-black/80 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 shadow-xl z-20 hover:border-portfolio-accent/40 transition-colors duration-300">
+                <Terminal className="w-3.5 h-3.5 text-portfolio-accent" />
                 <span>code <strong className="text-white font-semibold">full-stack</strong></span>
               </div>
 
               {/* Badge 2: Bottom-Right */}
-              <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 shadow-xl z-20 hover:border-[#B388FF]/40 transition-colors duration-300">
-                <Brain className="w-3.5 h-3.5 text-[#B388FF]" />
+              <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 shadow-xl z-20 hover:border-portfolio-accent/40 transition-colors duration-300">
+                <Brain className="w-3.5 h-3.5 text-portfolio-accent" />
                 <span>psychology <strong className="text-white font-semibold">AI/ML</strong></span>
               </div>
             </div>
@@ -171,15 +171,15 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none opacity-40" />
           
           <div className="max-w-4xl mx-auto relative z-10">
-            <Quote className="w-12 h-12 text-[#B388FF] opacity-30 mx-auto mb-8 animate-pulse" />
+            <Quote className="w-12 h-12 text-portfolio-accent opacity-30 mx-auto mb-8 animate-pulse" />
             
-            <h2 className="text-2xl md:text-4xl font-semibold text-white tracking-tight leading-relaxed max-w-3xl mx-auto mb-8 selection:bg-[#B388FF]/40">
+            <h2 className="text-2xl md:text-4xl font-semibold text-white tracking-tight leading-relaxed max-w-3xl mx-auto mb-8 selection:bg-portfolio-accent/40">
               "Great software is a balance of robust engineering and high-fidelity user experience. 
               It must be as robust under the hood as it is elegant on the surface."
             </h2>
 
             {/* Glowing gradient line under quote */}
-            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B388FF] to-transparent mx-auto rounded-full shadow-[0_0_10px_#B388FF]" />
+            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-portfolio-accent to-transparent mx-auto rounded-full shadow-[0_0_10px_var(--color-portfolio-accent)]" />
           </div>
         </motion.section>
 
@@ -209,7 +209,7 @@ export default function AboutPage() {
                 className={`group relative flex flex-col justify-between ${skill.spanClass} bg-zinc-900/35 border border-white/5 rounded-2xl p-8 backdrop-blur-md transition-all duration-300 hover:bg-zinc-900/50 hover:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]`}
               >
                 {/* Glow accent corner inside card */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[#B388FF]/5 rounded-bl-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-portfolio-accent/5 rounded-bl-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div>
                   {/* Category Header */}
