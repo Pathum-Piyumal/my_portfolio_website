@@ -9,6 +9,7 @@ import { Terminal, Brain, Database, Cloud, Globe, Quote, ArrowRight, Star } from
 import Honors from "@/components/Honors";
 import Certifications from "@/components/Certifications";
 import Volunteering from "@/components/Volunteering";
+import DevAnalytics from "@/components/DevAnalytics";
 import { techStack } from "@/lib/tech-data";
 
 export default function AboutPage() {
@@ -261,6 +262,8 @@ export default function AboutPage() {
             ))}
           </div>
         </motion.section>
+
+        <DevAnalytics />
 
         <Volunteering />
         <Certifications />
