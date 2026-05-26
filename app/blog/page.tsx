@@ -13,6 +13,7 @@ import SpotlightCard from "@/components/SpotlightCard";
 export default function BlogListingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedTag, setSelectedTag] = useState("");
 
   // Extract all unique categories dynamically
   const categories = useMemo(() => {
@@ -20,19 +21,41 @@ export default function BlogListingPage() {
     return ["All", ...Array.from(new Set(cats))];
   }, []);
 
-  // Filter posts based on active search keyword & selected category
+  // Compute tag frequencies dynamically from blogPosts
+  const tagCloud = useMemo(() => {
+    const counts: Record<string, number> = {};
+    blogPosts.forEach(post => {
+      post.tags.forEach(tag => {
+        counts[tag] = (counts[tag] || 0) + 1;
+      });
+    });
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, []);
+
+  // Filter posts based on active search, selected category, and selected tag cloud filter
   const filteredPosts = useMemo(() => {
     return blogPosts.filter(post => {
       const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
-      const matchesSearch = 
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        post.category.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesTag = !selectedTag || post.tags.includes(selectedTag);
       
-      return matchesCategory && matchesSearch;
+      if (!matchesCategory || !matchesTag) return false;
+      if (!searchQuery.trim()) return true;
+
+      // Tokenized fuzzy keyword matching logic
+      const tokens = searchQuery.toLowerCase().split(/\s+/).filter(Boolean);
+      return tokens.every(token => {
+        return (
+          post.title.toLowerCase().includes(token) ||
+          post.excerpt.toLowerCase().includes(token) ||
+          post.category.toLowerCase().includes(token) ||
+          post.tags.some(tag => tag.toLowerCase().includes(token))
+        );
+      });
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, selectedTag]);
+
 
   // Animation configurations
   const staggerContainer = {
@@ -127,21 +150,76 @@ export default function BlogListingPage() {
 
           {/* Categories Pill Selector */}
           <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-white/5">
-            <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase mr-2">Filter:</span>
+            <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase mr-2">Category:</span>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => {
                 const isActive = selectedCategory === category;
                 return (
                   <button
                     key={category}
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      // Clear tag when switching categories to avoid empty filter intersections
+                      setSelectedTag("");
+                    }}
                     className={`px-4 py-2 rounded-xl text-xs md:text-sm font-medium tracking-wide border transition-all duration-300 cursor-pointer ${
                       isActive
-                        ? "bg-portfolio-accent text-black border-portfolio-accent shadow-[0_0_15px_rgba(var(--portfolio-accent),0.25)] font-semibold"
+                        ? "bg-portfolio-accent text-black border-portfolio-accent shadow-[0_0_15px_rgba(var(--portfolio-accent),0.25)] font-semibold scale-102"
                         : "bg-white/5 border-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/10"
                     }`}
                   >
                     {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Dynamic Tag Cloud Filter */}
+          <div className="flex flex-col gap-2.5 pt-3.5 border-t border-white/5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">Tags:</span>
+                <span className="text-[10px] text-zinc-600 font-mono italic">(Click to filter by technology)</span>
+              </div>
+              {selectedTag && (
+                <button
+                  onClick={() => setSelectedTag("")}
+                  className="text-[10px] font-mono text-portfolio-accent hover:underline cursor-pointer flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded border border-white/10"
+                >
+                  Clear Tag Filter [x]
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {tagCloud.map(({ name, count }) => {
+                const isActive = selectedTag === name;
+                const matchedTech = techStack.find(
+                  (tech) => tech.name.toLowerCase() === name.toLowerCase()
+                );
+                return (
+                  <button
+                    key={name}
+                    onClick={() => setSelectedTag(isActive ? "" : name)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-medium tracking-wide border transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
+                      isActive
+                        ? "bg-portfolio-accent text-black border-portfolio-accent shadow-[0_0_12px_rgba(var(--portfolio-accent),0.3)] font-bold scale-102"
+                        : matchedTech 
+                          ? "bg-zinc-950/60 border-white/5 text-zinc-300 hover:text-white hover:bg-white/10 hover:border-white/10"
+                          : "bg-white/5 border-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/10"
+                    }`}
+                  >
+                    {matchedTech && (
+                      <span className="shrink-0 flex items-center justify-center">
+                        {matchedTech.icon(isActive ? "w-3 h-3 text-black" : "w-3 h-3 text-portfolio-accent/80")}
+                      </span>
+                    )}
+                    <span>{name}</span>
+                    <span className={`text-[9px] font-mono font-black px-1.5 py-0.2 rounded ${
+                      isActive ? "bg-black/15 text-black" : "bg-white/5 text-zinc-500"
+                    }`}>
+                      {count}
+                    </span>
                   </button>
                 );
               })}
@@ -269,7 +347,7 @@ export default function BlogListingPage() {
                 We couldn't find any write-ups matching "{searchQuery}". Try modifying your keywords or selecting another category.
               </p>
               <button 
-                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
+                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); setSelectedTag(""); }}
                 className="mt-6 text-xs font-bold font-mono tracking-widest text-portfolio-accent border-b border-portfolio-accent/30 hover:border-portfolio-accent pb-0.5 transition-all duration-300 cursor-pointer"
               >
                 CLEAR FILTER RULES
