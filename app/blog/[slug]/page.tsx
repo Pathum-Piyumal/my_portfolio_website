@@ -44,7 +44,7 @@ function CodeContainer({ code, language }: { code: string; language: string }) {
         </div>
       </div>
       {/* Scrollable code area */}
-      <pre className="p-5 md:p-6 overflow-x-auto text-xs md:text-sm text-zinc-300 leading-relaxed max-w-full selection:bg-[#B388FF]/30">
+      <pre className="p-5 md:p-6 overflow-x-auto text-xs md:text-sm text-zinc-300 leading-relaxed max-w-full selection:bg-portfolio-accent/30">
         <code>{code}</code>
       </pre>
     </div>
@@ -54,14 +54,14 @@ function CodeContainer({ code, language }: { code: string; language: string }) {
 // Custom callout notification block
 function CalloutBlock({ text }: { text: string }) {
   return (
-    <div className="relative overflow-hidden bg-[#B388FF]/5 border border-[#B388FF]/15 rounded-2xl p-5 md:p-6 my-8 flex items-start gap-4 shadow-[0_4px_30px_rgba(179,136,255,0.02)]">
+    <div className="relative overflow-hidden bg-portfolio-accent/5 border border-portfolio-accent/15 rounded-2xl p-5 md:p-6 my-8 flex items-start gap-4 shadow-[0_4px_30px_rgba(var(--portfolio-accent),0.02)]">
       {/* Vertical left neon line */}
-      <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#B388FF] to-[#805ad5] shadow-[0_0_10px_rgba(179,136,255,0.5)]" />
-      <span className="p-2.5 bg-[#B388FF]/10 rounded-xl border border-[#B388FF]/20 text-[#B388FF] shrink-0">
+      <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-portfolio-accent to-portfolio-accent/60 shadow-[0_0_10px_rgba(var(--portfolio-accent),0.5)]" />
+      <span className="p-2.5 bg-portfolio-accent/10 rounded-xl border border-portfolio-accent/20 text-portfolio-accent shrink-0">
         <Sparkles className="w-4 h-4" />
       </span>
       <div className="flex-1">
-        <span className="text-[10px] font-mono font-bold tracking-widest text-[#B388FF]/80 uppercase block mb-1">PRO-TIP ARCHITECTURE</span>
+        <span className="text-[10px] font-mono font-bold tracking-widest text-portfolio-accent/80 uppercase block mb-1">PRO-TIP ARCHITECTURE</span>
         <p className="text-zinc-300 text-sm md:text-base leading-relaxed font-sans">{text}</p>
       </div>
     </div>
@@ -74,7 +74,7 @@ function ListBlock({ items }: { items: string[] }) {
     <ul className="list-none space-y-4 my-8 pl-1 max-w-3xl">
       {items.map((item, idx) => (
         <li key={idx} className="flex items-start gap-3.5 text-zinc-300 text-sm md:text-base leading-relaxed">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF] mt-2.5 shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-portfolio-accent shadow-[0_0_8px_var(--color-portfolio-accent)] mt-2.5 shrink-0" />
           <span>{item}</span>
         </li>
       ))}
@@ -115,7 +115,7 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-[#B388FF]/30 text-white overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-portfolio-accent/30 text-white overflow-x-hidden">
       <Navbar />
 
       {/* Dynamic ambient backdrop spotlight */}
@@ -139,7 +139,7 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <ArrowLeft className="w-4 h-4 text-zinc-400 group-hover:text-[#B388FF] transition-colors" />
+                <ArrowLeft className="w-4 h-4 text-zinc-400 group-hover:text-portfolio-accent transition-colors" />
               </motion.span>
               <span>BACK TO ARTICLES</span>
             </motion.button>
@@ -152,13 +152,13 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
           <ChevronRight className="w-3 h-3 text-zinc-600" />
           <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
           <ChevronRight className="w-3 h-3 text-zinc-600" />
-          <span className="text-[#B388FF] truncate max-w-[200px] md:max-w-sm">{post.title}</span>
+          <span className="text-portfolio-accent truncate max-w-[200px] md:max-w-sm">{post.title}</span>
         </div>
 
         {/* ================= POST HEADER PANEL ================= */}
         <header className="mb-12">
           {/* Category Pill */}
-          <span className="inline-block text-[10px] font-mono font-black tracking-widest text-[#B388FF] uppercase border border-[#B388FF]/30 px-3 py-1 rounded bg-[#B388FF]/5 mb-6 shadow-[0_0_12px_rgba(179,136,255,0.05)]">
+          <span className="inline-block text-[10px] font-mono font-black tracking-widest text-portfolio-accent uppercase border border-portfolio-accent/30 px-3 py-1 rounded bg-portfolio-accent/5 mb-6 shadow-[0_0_12px_rgba(var(--portfolio-accent),0.05)]">
             {post.category}
           </span>
 
@@ -170,7 +170,7 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
           {/* Reading Metadata */}
           <div className="flex flex-wrap items-center gap-6 text-xs md:text-sm text-zinc-400 border-b border-white/10 pb-8">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#B388FF]/70" />
+              <Calendar className="w-4 h-4 text-portfolio-accent/70" />
               <span>Published on {post.date}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -181,7 +181,7 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
         </header>
 
         {/* ================= POST CONTENT RENDERER ================= */}
-        <article className="prose prose-invert max-w-none text-zinc-300 selection:bg-[#B388FF]/40 leading-relaxed font-sans">
+        <article className="prose prose-invert max-w-none text-zinc-300 selection:bg-portfolio-accent/40 leading-relaxed font-sans">
           {post.content.map((block, idx) => {
             switch (block.type) {
               case 'paragraph':

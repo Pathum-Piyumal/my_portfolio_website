@@ -9,11 +9,11 @@ const societies = [
     focus: "Technical Workshops & Study Circles",
     statusBadge: "Engagement Pipeline",
     statusText: "Incoming Contributor",
-    statusColor: "text-violet-400 border-violet-500/30 bg-violet-500/10",
-    icon: <Cpu className="w-6 h-6 text-violet-400" />,
-    iconBg: "bg-violet-500/10 border-violet-500/20 group-hover:border-violet-500/40",
-    glowColor: "bg-violet-500/5",
-    colorTheme: "#8B5CF6",
+    statusColor: "text-portfolio-accent border-portfolio-accent/30 bg-portfolio-accent/10",
+    icon: <Cpu className="w-6 h-6 text-portfolio-accent" />,
+    iconBg: "bg-portfolio-accent/10 border-portfolio-accent/20 group-hover:border-portfolio-accent/40",
+    glowColor: "bg-portfolio-accent/5",
+    colorTheme: "var(--color-portfolio-accent)",
     timeline: "Target Launch: Q3 2026",
     initiatives: [
       "Designing study plans for peer-led workshops in Python, Data Science, and basic React.",
@@ -29,7 +29,7 @@ const shimmerCSS = `
     100% { background-position: 200% center; }
   }
   .vol-shimmer {
-    background: linear-gradient(90deg, #ffffff 0%, #22d3ee 35%, #8B5CF6 65%, #ffffff 100%);
+    background: linear-gradient(90deg, #ffffff 0%, #22d3ee 35%, var(--color-portfolio-accent) 65%, #ffffff 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -45,7 +45,7 @@ export default function Volunteering() {
 
       {/* Breathing ambient orbs */}
       <motion.div
-        className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-[#B388FF]/5 rounded-full blur-[140px] pointer-events-none -z-10"
+        className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-portfolio-accent/5 rounded-full blur-[140px] pointer-events-none -z-10"
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />

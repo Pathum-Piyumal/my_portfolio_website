@@ -76,7 +76,7 @@ export default function Preloader() {
           {particles.map((p) => (
             <motion.div
               key={p.id}
-              className="absolute rounded-full bg-[#B388FF] pointer-events-none"
+              className="absolute rounded-full bg-portfolio-accent pointer-events-none"
               style={{
                 left: `${p.x}%`,
                 top: `${p.y}%`,
@@ -98,7 +98,7 @@ export default function Preloader() {
 
           {/* Large radial violet glow */}
           <motion.div
-            className="absolute w-[500px] h-[500px] bg-[#B388FF]/8 rounded-full blur-[120px] pointer-events-none"
+            className="absolute w-[500px] h-[500px] bg-portfolio-accent/8 rounded-full blur-[120px] pointer-events-none"
             animate={isExiting ? { scale: 2.5, opacity: 0.3 } : { scale: [1, 1.1, 1] }}
             transition={isExiting ? { duration: 0.7, ease: 'easeOut' } : { duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -124,11 +124,11 @@ export default function Preloader() {
               <span
                 className="text-[7rem] md:text-[10rem] font-serif leading-none text-white tracking-tighter font-extrabold tabular-nums"
                 style={{
-                  textShadow: `0 0 80px rgba(179,136,255,${progress / 200}), 0 0 40px rgba(179,136,255,${progress / 400})`,
+                  textShadow: `0 0 80px rgba(var(--portfolio-accent),${progress / 200}), 0 0 40px rgba(var(--portfolio-accent),${progress / 400})`,
                 }}
               >
                 {progress}
-                <span className="text-[#B388FF]">%</span>
+                <span className="text-portfolio-accent">%</span>
               </span>
             </motion.div>
 
@@ -137,7 +137,7 @@ export default function Preloader() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut', delay: 0.3 }}
-              className="text-[11px] font-mono font-bold tracking-[0.35em] text-[#B388FF]/70 uppercase"
+              className="text-[11px] font-mono font-bold tracking-[0.35em] text-portfolio-accent/70 uppercase"
             >
               INITIALIZING PORTFOLIO
             </motion.div>
@@ -145,7 +145,7 @@ export default function Preloader() {
             {/* Progress bar with shimmer */}
             <div className="w-64 h-[2px] bg-white/8 rounded-full overflow-hidden mt-1 relative">
               <motion.div
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#B388FF] via-blue-400 to-[#B388FF] rounded-full"
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-portfolio-accent via-blue-400 to-portfolio-accent rounded-full"
                 style={{ width: `${progress}%` }}
                 transition={{ duration: 0.06, ease: 'linear' }}
               />
@@ -164,8 +164,8 @@ export default function Preloader() {
                   key={threshold}
                   className="w-1 h-1 rounded-full"
                   animate={{
-                    backgroundColor: progress >= threshold ? '#B388FF' : 'rgba(255,255,255,0.1)',
-                    boxShadow: progress >= threshold ? '0 0 6px #B388FF' : 'none',
+                    backgroundColor: progress >= threshold ? 'var(--color-portfolio-accent)' : 'rgba(255,255,255,0.1)',
+                    boxShadow: progress >= threshold ? '0 0 6px var(--color-portfolio-accent)' : 'none',
                   }}
                   transition={{ duration: 0.3 }}
                 />

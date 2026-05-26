@@ -8,7 +8,7 @@ import { techStack } from '@/lib/tech-data';
 
 const roles = [
   { text: "SE Undergraduate", color: "text-[#FFB74D] border-[#FFB74D]/20 bg-[#FFB74D]/5 shadow-[0_0_15px_rgba(255,183,77,0.15)]" },
-  { text: "Fullstack Developer", color: "text-[#B388FF] border-[#B388FF]/20 bg-[#B388FF]/5 shadow-[0_0_15px_rgba(179,136,255,0.15)]" },
+  { text: "Fullstack Developer", color: "text-portfolio-accent border-portfolio-accent/20 bg-portfolio-accent/5 shadow-[0_0_15px_rgba(var(--portfolio-accent),0.15)]" },
   { text: "MERN Stack Specialist", color: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5 shadow-[0_0_15px_rgba(52,211,153,0.15)]" },
   { text: "AI/ML Aspirant", color: "text-blue-400 border-blue-500/20 bg-blue-500/5 shadow-[0_0_15px_rgba(96,165,250,0.15)]" }
 ];
@@ -107,7 +107,7 @@ export default function Hero() {
     <section className="pt-32 pb-16 px-4 md:px-8 max-w-7xl mx-auto w-full flex flex-col min-h-screen justify-center relative select-none">
       {/* Animated background orbs */}
       <motion.div
-        className="absolute top-20 right-0 w-[500px] h-[500px] bg-[#B388FF]/10 rounded-full blur-[120px] -z-10 pointer-events-none"
+        className="absolute top-20 right-0 w-[500px] h-[500px] bg-portfolio-accent/10 rounded-full blur-[120px] -z-10 pointer-events-none"
         animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -155,8 +155,8 @@ export default function Hero() {
                     variants={letterVariants}
                     whileHover={{
                       scale: 1.18,
-                      color: "#B388FF",
-                      textShadow: "0px 0px 20px rgba(179,136,255,1)",
+                      color: "var(--color-portfolio-accent)",
+                      textShadow: "0px 0px 20px rgba(var(--portfolio-accent),1)",
                       y: -8,
                       transition: { type: "spring", stiffness: 400, damping: 10 }
                     }}
@@ -197,7 +197,7 @@ export default function Hero() {
               >
                 <Link
                   href="#portfolio"
-                  className="bg-[#B388FF] text-black px-6 py-3 rounded-full font-bold hover:bg-[#c4a1ff] transition-all duration-300 flex items-center gap-2 shadow-[0_0_30px_rgba(179,136,255,0.45)] cursor-pointer"
+                  className="bg-portfolio-accent text-black px-6 py-3 rounded-full font-bold hover:bg-portfolio-accent/90 transition-all duration-300 flex items-center gap-2 shadow-[0_0_30px_rgba(var(--portfolio-accent),0.45)] cursor-pointer"
                 >
                   Explore Portfolio
                   <motion.span
@@ -242,20 +242,20 @@ export default function Hero() {
         >
           {/* Ambient Glow — breathes */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-[#B388FF]/15 via-blue-500/10 to-transparent rounded-full blur-3xl -z-10"
+            className="absolute inset-0 bg-gradient-to-tr from-portfolio-accent/15 via-blue-500/10 to-transparent rounded-full blur-3xl -z-10"
             animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.06, 1] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
           />
 
           {/* Orbit rings */}
           <div className="absolute w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px] rounded-full border border-white/5 pointer-events-none" />
-          <div className="absolute w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] rounded-full border border-[#B388FF]/10 border-dashed animate-[spin_80s_linear_infinite_reverse] pointer-events-none" />
+          <div className="absolute w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] rounded-full border border-portfolio-accent/10 border-dashed animate-[spin_80s_linear_infinite_reverse] pointer-events-none" />
           <div className="absolute w-[360px] h-[360px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[540px] lg:h-[540px] rounded-full border border-white/5 animate-[spin_120s_linear_infinite] pointer-events-none" />
 
           {/* Parallax photo container */}
           <motion.div
             style={{ rotateX, rotateY, translateX: photoTranslateX, translateY: photoTranslateY }}
-            className="relative w-52 h-52 sm:w-60 sm:h-60 md:w-68 md:h-68 lg:w-76 lg:h-76 rounded-full p-[3px] bg-gradient-to-tr from-[#B388FF] via-blue-500 to-[#FFB74D] shadow-[0_0_60px_rgba(179,136,255,0.3)] group z-10"
+            className="relative w-52 h-52 sm:w-60 sm:h-60 md:w-68 md:h-68 lg:w-76 lg:h-76 rounded-full p-[3px] bg-gradient-to-tr from-portfolio-accent via-blue-500 to-[#FFB74D] shadow-[0_0_60px_rgba(var(--portfolio-accent),0.3)] group z-10"
           >
             <div className="w-full h-full rounded-full bg-zinc-950 overflow-hidden relative flex items-center justify-center">
               <img
@@ -276,10 +276,10 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.9 }}
         className="mt-28 flex flex-col items-center text-center z-10 select-none"
       >
-        <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] text-[#B388FF] uppercase font-extrabold flex items-center gap-2.5">
+        <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] text-portfolio-accent uppercase font-extrabold flex items-center gap-2.5">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#B388FF] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#B388FF]"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-portfolio-accent opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-portfolio-accent"></span>
           </span>
           Core Technical Arsenal
         </span>
