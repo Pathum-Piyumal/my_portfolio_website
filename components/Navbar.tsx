@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Palette, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAccent, accentThemes } from '@/lib/AccentContext';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -13,6 +14,8 @@ export default function Navbar() {
   const isBlogPage = pathname.startsWith('/blog');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { activeAccent, setAccentTheme } = useAccent();
 
   const navLinks = [
     { name: 'Architecture', href: '/#architecture' },
@@ -28,16 +31,16 @@ export default function Navbar() {
       {/* Centered Suspended Dock Container */}
       <div className="w-full max-w-5xl pointer-events-auto bg-zinc-950/65 backdrop-blur-xl border border-white/10 rounded-full px-5 py-3 md:px-6 md:py-3.5 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.7)] hover:border-white/15 transition-all duration-300 relative">
         {/* Soft bottom glow accent line */}
-        <div className="absolute inset-x-12 -bottom-[1px] h-[1px] bg-gradient-to-r from-transparent via-[#B388FF]/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-12 -bottom-[1px] h-[1px] bg-gradient-to-r from-transparent via-portfolio-accent/30 to-transparent pointer-events-none" />
 
         {/* Brand Logo & Active Status Dot */}
         <div className="flex items-center gap-4">
           <Link href="/">
             <span className="text-lg md:text-xl font-black tracking-tighter text-white hover:opacity-90 transition-opacity cursor-pointer group flex items-center gap-1.5 font-sans">
-              <span className="bg-gradient-to-r from-white via-zinc-100 to-[#B388FF] bg-clip-text text-transparent group-hover:from-white group-hover:to-[#c4a1ff] transition-all duration-300">
+              <span className="bg-gradient-to-r from-white via-zinc-100 to-portfolio-accent bg-clip-text text-transparent group-hover:from-white group-hover:to-portfolio-accent transition-all duration-300">
                 RMPK
               </span>
-              <span className="text-[#B388FF] text-[10px] md:text-xs font-mono font-bold px-1.5 py-0.5 rounded border border-[#B388FF]/30 bg-[#B388FF]/5 shadow-[0_0_10px_rgba(179,136,255,0.15)] group-hover:border-[#B388FF]/50 transition-all duration-300">
+              <span className="text-portfolio-accent text-[10px] md:text-xs font-mono font-bold px-1.5 py-0.5 rounded border border-portfolio-accent/30 bg-portfolio-accent/5 shadow-[0_0_10px_rgba(var(--portfolio-accent),0.15)] group-hover:border-portfolio-accent/50 transition-all duration-300">
                 .dev
               </span>
             </span>
@@ -85,7 +88,7 @@ export default function Navbar() {
 
                 {/* Active Indicator Dot */}
                 {isActive && !hoveredIndex && (
-                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF]" />
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-portfolio-accent shadow-[0_0_8px_var(--color-portfolio-accent)]" />
                 )}
 
                 <span className="relative z-10">{link.name}</span>
@@ -96,12 +99,65 @@ export default function Navbar() {
 
         {/* CTA Panel */}
         <div className="flex items-center gap-3">
+          {/* Desktop Dynamic Theme Customizer Switcher */}
+          <div className="hidden md:block relative z-50">
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="p-2 rounded-full bg-white/5 border border-white/10 hover:border-portfolio-accent/30 text-zinc-400 hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center relative shadow-md hover:scale-105 active:scale-95"
+              title="Customize Accent Color"
+            >
+              <Palette className="w-4 h-4 text-portfolio-accent" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-portfolio-accent animate-pulse" />
+            </button>
+            
+            <AnimatePresence>
+              {dropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-40 pointer-events-auto" onClick={() => setDropdownOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 8 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="absolute right-0 mt-3 p-2 w-48 bg-zinc-950/95 backdrop-blur-xl border border-white/10 rounded-2xl flex flex-col gap-1 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50"
+                  >
+                    <div className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase px-2.5 py-1">Theme Accent</div>
+                    {accentThemes.map((theme) => {
+                      const isActive = activeAccent.id === theme.id;
+                      return (
+                        <button
+                          key={theme.id}
+                          onClick={() => {
+                            setAccentTheme(theme.id);
+                            setDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-semibold font-sans transition-all duration-200 cursor-pointer ${
+                            isActive ? 'bg-white/10 text-white' : 'text-zinc-400 hover:bg-white/5 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <span 
+                              className="w-3 h-3 rounded-full border border-white/20 shadow-inner"
+                              style={{ backgroundColor: theme.hex, boxShadow: `0 0 8px ${theme.hex}` }}
+                            />
+                            <span>{theme.name}</span>
+                          </div>
+                          {isActive && <Check className="w-3.5 h-3.5 text-portfolio-accent" />}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+
           {/* Desktop Right Action */}
           <div className="hidden md:flex items-center">
             <Link href="/contact">
-              <button className="relative overflow-hidden group bg-[#B388FF] text-black px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-[0_0_15px_rgba(179,136,255,0.3)] hover:shadow-[0_0_25px_rgba(179,136,255,0.6)] cursor-pointer transform hover:-translate-y-0.5 flex items-center gap-1">
+              <button className="relative overflow-hidden group bg-portfolio-accent text-black px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-[0_0_15px_rgba(var(--portfolio-accent),0.3)] hover:shadow-[0_0_25px_rgba(var(--portfolio-accent),0.6)] cursor-pointer transform hover:-translate-y-0.5 flex items-center gap-1">
                 {/* Magnetic color flow overlay */}
-                <span className="absolute inset-0 bg-gradient-to-r from-[#c4a1ff] to-[#B388FF] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                <span className="absolute inset-0 bg-gradient-to-r from-portfolio-accent/80 to-portfolio-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
                 <span>Hire Me</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
@@ -129,7 +185,7 @@ export default function Navbar() {
               className="absolute top-full left-0 right-0 mt-3 p-6 bg-zinc-950/95 backdrop-blur-xl border border-white/10 rounded-[28px] flex flex-col gap-4 shadow-2xl z-40 md:hidden overflow-hidden"
             >
               {/* Backglow element */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#B388FF]/10 rounded-full blur-2xl pointer-events-none -z-10 animate-pulse" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-portfolio-accent/10 rounded-full blur-2xl pointer-events-none -z-10 animate-pulse" />
 
               {navLinks.map((link) => {
                 const isActive = 
@@ -144,20 +200,43 @@ export default function Navbar() {
                     href={link.href} 
                     onClick={() => setMobileMenuOpen(false)}
                     className={`text-base font-semibold py-2.5 border-b border-white/5 transition-colors flex items-center justify-between ${
-                      isActive ? 'text-[#B388FF]' : 'text-zinc-300 hover:text-white'
+                      isActive ? 'text-portfolio-accent' : 'text-zinc-300 hover:text-white'
                     }`}
                   >
                     <span>{link.name}</span>
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#B388FF] shadow-[0_0_8px_#B388FF]" />}
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-portfolio-accent shadow-[0_0_8px_var(--color-portfolio-accent)]" />}
                   </Link>
                 );
               })}
               
               <div className="pt-2 flex flex-col gap-3">
+                {/* Mobile Accent Theme Selectors */}
+                <div className="flex flex-col gap-2 mb-2">
+                  <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase px-1">Theme Accent</span>
+                  <div className="flex items-center justify-between bg-white/5 border border-white/5 p-2 rounded-2xl">
+                    {accentThemes.map((theme) => {
+                      const isActive = activeAccent.id === theme.id;
+                      return (
+                        <button
+                          key={theme.id}
+                          onClick={() => setAccentTheme(theme.id)}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 relative cursor-pointer ${
+                            isActive ? 'scale-110 border-2 border-white' : 'border border-white/10'
+                          }`}
+                          style={{ backgroundColor: theme.hex, boxShadow: isActive ? `0 0 10px ${theme.hex}` : 'none' }}
+                          title={theme.name}
+                        >
+                          {isActive && <Check className="w-4 h-4 text-black font-black" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 <div className="h-[1px] bg-white/10 w-full my-1"></div>
                 
                 <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <button className="w-full bg-[#B388FF] text-black py-3.5 rounded-2xl text-sm font-bold hover:bg-[#c4a1ff] transition-all duration-300 shadow-[0_0_15px_rgba(179,136,255,0.2)] cursor-pointer flex items-center justify-center gap-1">
+                  <button className="w-full bg-portfolio-accent text-black py-3.5 rounded-2xl text-sm font-bold hover:bg-portfolio-accent/90 transition-all duration-300 shadow-[0_0_15px_rgba(var(--portfolio-accent),0.2)] cursor-pointer flex items-center justify-center gap-1">
                     <span>Hire Me</span>
                     <ArrowUpRight className="w-4 h-4" />
                   </button>

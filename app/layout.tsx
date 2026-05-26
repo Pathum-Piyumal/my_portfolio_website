@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { AccentProvider } from "@/lib/AccentContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +28,11 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-black text-white">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-black text-white">
+        <AccentProvider>
+          {children}
+        </AccentProvider>
+      </body>
     </html>
   );
 }
