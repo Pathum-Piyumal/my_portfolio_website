@@ -54,6 +54,64 @@ export default function DevAnalytics() {
   const [liveCells, setLiveCells] = useState<any[] | null>(null);
   const [isLiveActive, setIsLiveActive] = useState(false);
 
+  const [liveWakaStats, setLiveWakaStats] = useState<WakaTimeStats | null>(null);
+  const [isWakaLiveActive, setIsWakaLiveActive] = useState(false);
+
+  // Helper to fetch live WakaTime metrics from our secure Next.js API Route
+  const fetchLiveWakaData = async (logState?: boolean) => {
+    try {
+      if (logState) {
+        setSyncLogs(prev => [...prev, "[SYNC] Requesting WakaTime payload from secure proxy `/api/wakatime`..."]);
+      }
+      const res = await fetch('/api/wakatime');
+      if (!res.ok) throw new Error(`Gateway returned HTTP status ${res.status}`);
+      const data = await res.json();
+
+      if (data.success) {
+        setLiveWakaStats({
+          totalHours: data.totalHours,
+          dailyAverage: data.dailyAverage,
+          activeEditor: data.activeEditor,
+          productiveHours: data.productiveHours,
+          languages: data.languages
+        });
+        setIsWakaLiveActive(true);
+        if (logState) {
+          if (data.source === 'mock-simulation') {
+            setSyncLogs(prev => [
+              ...prev,
+              "[SYNC] WAKATIME_API_KEY environment variable not configured in .env.local.",
+              "[SYNC] Utilizing local high-fidelity simulated telemetry profiles."
+            ]);
+          } else {
+            setSyncLogs(prev => [
+              ...prev,
+              `[SYNC] Successfully established handshake with WakaTime cloud gateway!`,
+              `[SYNC] Synchronized WakaTime metrics: ${data.totalHours} total hours tracked, primary IDE: ${data.activeEditor}.`
+            ]);
+          }
+        }
+      } else {
+        if (logState) {
+          setSyncLogs(prev => [
+            ...prev,
+            `[SYNC] WakaTime gateway handshake failed: ${data.message || 'unknown error'}`,
+            "[SYNC] Restoring cached static developer telemetry indexes."
+          ]);
+        }
+      }
+    } catch (err: any) {
+      console.error("Error fetching live WakaTime data", err);
+      if (logState) {
+        setSyncLogs(prev => [
+          ...prev,
+          `[SYNC] Warning: WakaTime connection timed out: ${err.message || err}`,
+          "[SYNC] Safeguarded by restoring high-fidelity static telemetry caches."
+        ]);
+      }
+    }
+  };
+
   // Helper to fetch live GitHub metrics from our secure Next.js API Route
   const fetchLiveGitHubData = async (logState?: boolean) => {
     try {
@@ -117,6 +175,7 @@ export default function DevAnalytics() {
   useEffect(() => {
     setMounted(true);
     fetchLiveGitHubData(false);
+    fetchLiveWakaData(false);
   }, []);
 
   const wakaStats: WakaTimeStats = {
@@ -161,12 +220,17 @@ export default function DevAnalytics() {
     return cells;
   }, []);
 
+  // Computed dynamic stats depending on whether live data was loaded
+  const activeGhStats = liveGhStats || ghStats;
+  const activeCells = liveCells || calendarCells;
+  const activeWakaStats = liveWakaStats || wakaStats;
+
   // Filter languages based on search query
   const filteredLanguages = useMemo(() => {
-    return wakaStats.languages.filter(lang => 
+    return activeWakaStats.languages.filter(lang => 
       lang.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [searchQuery]);
+  }, [searchQuery, activeWakaStats]);
 
   // Sync / telemetries simulation handler
   const handleSyncTelemetry = () => {
@@ -192,6 +256,7 @@ export default function DevAnalytics() {
         clearInterval(timer);
         // Fetch fresh live details and print status
         await fetchLiveGitHubData(true);
+        await fetchLiveWakaData(true);
         setSyncLogs(prev => [...prev, "[SYNC] Sync completed. Telemetry buffers successfully committed."]);
         setIsSyncing(false);
       }
@@ -207,10 +272,7 @@ export default function DevAnalytics() {
     return 'bg-portfolio-accent hover:opacity-90 cursor-pointer scale-105 shadow-[0_0_8px_var(--color-portfolio-accent)]';
   };
 
-  // Computed dynamic stats depending on whether live data was loaded
-  const activeGhStats = liveGhStats || ghStats;
-  const activeCells = liveCells || calendarCells;
-
+  // Dynamic stats computed dynamically above
   if (!mounted) return null;
 
   return (
@@ -501,9 +563,9 @@ export default function DevAnalytics() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-portfolio-accent/5 rounded-bl-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <Clock className="w-5 h-5 text-portfolio-accent mb-4" />
                 <div className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase mb-2">Total Telemetry Time</div>
-                <div className="text-4xl font-black text-white tracking-tight mb-2">{wakaStats.totalHours} hrs</div>
+                <div className="text-4xl font-black text-white tracking-tight mb-2">{activeWakaStats.totalHours} hrs</div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-                  Daily Average of <strong className="text-white font-mono">{wakaStats.dailyAverage} hours</strong> tracked. Highlights consistent core systems development and system debugging sprints.
+                  Daily Average of <strong className="text-white font-mono">{activeWakaStats.dailyAverage} hours</strong> tracked. Highlights consistent core systems development and system debugging sprints.
                 </p>
               </div>
 
@@ -516,11 +578,11 @@ export default function DevAnalytics() {
                   <ul className="space-y-4">
                     <li className="flex justify-between items-center text-xs font-mono">
                       <span className="text-zinc-500 uppercase">Primary IDE:</span>
-                      <span className="text-white font-bold">{wakaStats.activeEditor}</span>
+                      <span className="text-white font-bold">{activeWakaStats.activeEditor}</span>
                     </li>
                     <li className="flex justify-between items-center text-xs font-mono">
                       <span className="text-zinc-500 uppercase">Active Hours:</span>
-                      <span className="text-portfolio-accent font-bold">{wakaStats.productiveHours}</span>
+                      <span className="text-portfolio-accent font-bold">{activeWakaStats.productiveHours}</span>
                     </li>
                     <li className="flex justify-between items-center text-xs font-mono">
                       <span className="text-zinc-500 uppercase">Telemetry status:</span>
