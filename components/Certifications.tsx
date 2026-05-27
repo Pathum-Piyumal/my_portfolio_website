@@ -442,6 +442,7 @@ export default function Certifications() {
             placeholder="Search credentials..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            suppressHydrationWarning
             className="w-full bg-zinc-950/50 border border-white/5 focus:border-[#B388FF]/30 text-white rounded-full py-2.5 pl-10 pr-4 text-xs placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-[#B388FF]/20 shadow-inner transition-all duration-300 font-sans"
           />
           {searchQuery && (
