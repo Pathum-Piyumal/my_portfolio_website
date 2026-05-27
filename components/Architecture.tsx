@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Globe, Database, Terminal, Server, X } from 'lucide-react';
+import { Globe, Database, Terminal, X } from 'lucide-react';
 import { techStack } from '@/lib/tech-data';
 
 // Animated counter hook
@@ -47,54 +47,54 @@ interface NodeDetails {
 
 const nodeDetailsRegistry: Record<'frontend' | 'apis' | 'dbs', NodeDetails> = {
   frontend: {
-    title: "High-Fidelity Client Gateway",
-    subtitle: "Tier 01 // Interactive User Interfaces & SEO Delivery",
-    description: "The ingress layer of the portfolio, custom built on Next.js 16 and React 19 Client components. Optimized for dynamic asset hydration, lighting fast route transitions, and HSL custom themes cached safely within the user's browser context.",
+    title: "Client Interface Layer",
+    subtitle: "Tier 01 // Interactive UI & Next.js SSR Delivery",
+    description: "The presentation layer of this portfolio, built with Next.js 15 and React 19. Uses TypeScript for end-to-end type safety, Tailwind CSS v4 for utility-first styling with HSL accent theming, and Framer Motion for high-fidelity micro-animations and scroll-driven interactions. All pages are server-side rendered with selective client hydration.",
     icon: <Globe className="w-5 h-5" />,
     specs: [
-      { label: "Rendering", value: "SSR / Client Hydration" },
-      { label: "Styling Core", value: "Tailwind CSS v4" },
-      { label: "Animation Core", value: "Framer Motion 12" },
-      { label: "Theme Engine", value: "Client-cached CSS variables" }
+      { label: "Framework", value: "Next.js 15 (App Router)" },
+      { label: "Styling", value: "Tailwind CSS v4 + CSS Variables" },
+      { label: "Animations", value: "Framer Motion 12" },
+      { label: "Language", value: "TypeScript + React 19" }
     ],
-    tech: ["React", "Next.js", "Tailwind CSS", "JavaScript", "TypeScript"],
+    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "JavaScript"],
     metrics: [
-      { label: "Speed Index", value: "0.8s", desc: "Interactive time under edge caches" },
-      { label: "Hydration", value: "100%", desc: "Hydration error protection active" }
+      { label: "Rendering", value: "SSR", desc: "Server-side rendered with client hydration" },
+      { label: "Type Safety", value: "100%", desc: "Full TypeScript coverage across components" }
     ]
   },
   apis: {
-    title: "Microservice Compute Layer",
-    subtitle: "Tier 02 // REST API Tunnels & Data Routing",
-    description: "The backend server engine handling requests, processing secure handshakes, and caching results dynamically. It acts as the gateway to retrieve live telemetry, WakaTime integrations, and securely query database clusters without exposing tokens.",
+    title: "Server & API Layer",
+    subtitle: "Tier 02 // Serverless Routes & Express REST APIs",
+    description: "This portfolio's backend runs as a Next.js serverless API route that securely queries the GitHub GraphQL v4 API with edge revalidation caching. Additionally, an ongoing project (Autonomous Dev Agent — Nexus) uses a Node.js + Express.js REST backend to orchestrate multi-model LLM pipelines and Git automation workflows.",
     icon: <Terminal className="w-5 h-5" />,
     specs: [
-      { label: "Server Runtime", value: "Node.js (NextJS Serverless)" },
-      { label: "Integrations", value: "GitHub GraphQL v4 & Scraper Proxy" },
-      { label: "Caching Layer", value: "API Edge Revalidation (3600s)" },
-      { label: "Data Safety", value: "Private token environment enclosure" }
+      { label: "Portfolio API", value: "Next.js Serverless Route" },
+      { label: "Integration", value: "GitHub GraphQL v4 API" },
+      { label: "Cache Strategy", value: "Edge Revalidation (3600s)" },
+      { label: "Nexus Backend", value: "Node.js + Express.js (ongoing)" }
     ],
-    tech: ["Node.js", "Express.js", "Python"],
+    tech: ["Node.js", "Express.js", "JavaScript", "TypeScript"],
     metrics: [
-      { label: "Response Time", value: "<120ms", desc: "API payload delivery speed" },
-      { label: "Up-time", value: "99.9%", desc: "Edge functions availability" }
+      { label: "Cache TTL", value: "3600s", desc: "GitHub API edge revalidation window" },
+      { label: "Token Safety", value: "ENV", desc: "Secrets secured in environment variables" }
     ]
   },
   dbs: {
-    title: "Persistence Cluster Layer",
-    subtitle: "Tier 03 // Distributed Storage & Caching Systems",
-    description: "The robust storage layers configured for relational dynamic structures. Utilizes MongoDB dynamic schemas for flexible blog posts and SQL query structures for transactional safety, supplemented with optimized caching systems.",
+    title: "Data Persistence Layer",
+    subtitle: "Tier 03 // Relational Storage & Structured Queries",
+    description: "MySQL is used as the primary relational database in the MindEase mental wellness platform (PHP + MySQL stack) and in the ongoing Nexus autonomous agent project (Node.js + Express.js + MySQL). Structured schemas handle user records, mood analytics, journal entries, and application state with ACID-compliant transactions.",
     icon: <Database className="w-5 h-5" />,
     specs: [
-      { label: "Document Storage", value: "MongoDB Atlas Cluster" },
-      { label: "Relational Storage", value: "MySQL Storage Modules" },
-      { label: "Caching Layer", value: "In-memory telemetry registers" },
-      { label: "Search Indexing", value: "Text index & partial scans optimized" }
+      { label: "Database", value: "MySQL (Relational)" },
+      { label: "MindEase Stack", value: "PHP + MySQL" },
+      { label: "Nexus Stack", value: "Express.js + MySQL (ongoing)" },
+      { label: "Compliance", value: "ACID Transactions" }
     ],
-    tech: ["MongoDB", "MySQL"],
+    tech: ["MySQL", "PHP", "Node.js"],
     metrics: [
-      { label: "Query Speed", value: "<8ms", desc: "Optimized index retrieval time" },
-      { label: "Integrity", value: "ACID", desc: "Relational compliance guarantee" }
+      { label: "Integrity", value: "ACID", desc: "Full relational transaction compliance" },
+      { label: "Projects", value: "2", desc: "MindEase (live) & Nexus (ongoing)" }
     ]
   }
 };
@@ -237,13 +237,13 @@ export default function Architecture() {
                 </div>
                 <div className="text-left">
                   <span className="text-[10px] font-mono tracking-wider text-zinc-500 uppercase font-semibold">Tier 01 // Frontend</span>
-                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">High-Fidelity Gateway</h4>
+                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">Client Interface Layer</h4>
                 </div>
               </div>
               <div className="flex items-center gap-2 pr-1">
                 {getTechIcon('React', 'w-4.5 h-4.5')}
                 {getTechIcon('Next.js', 'w-4.5 h-4.5')}
-                {getTechIcon('Tailwind CSS', 'w-4.5 h-4.5')}
+                {getTechIcon('TypeScript', 'w-4.5 h-4.5')}
               </div>
             </motion.div>
 
@@ -276,13 +276,13 @@ export default function Architecture() {
                 </div>
                 <div className="text-left">
                   <span className="text-[10px] font-mono tracking-wider text-zinc-500 uppercase font-semibold">Tier 02 // APIs</span>
-                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">Microservice Compute</h4>
+                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">Server & API Layer</h4>
                 </div>
               </div>
               <div className="flex items-center gap-2 pr-1">
                 {getTechIcon('Node.js', 'w-4.5 h-4.5')}
                 {getTechIcon('Express.js', 'w-4.5 h-4.5')}
-                {getTechIcon('Python', 'w-4.5 h-4.5')}
+                {getTechIcon('TypeScript', 'w-4.5 h-4.5')}
               </div>
             </motion.div>
 
@@ -315,13 +315,13 @@ export default function Architecture() {
                 </div>
                 <div className="text-left">
                   <span className="text-[10px] font-mono tracking-wider text-zinc-500 uppercase font-semibold">Tier 03 // DBs</span>
-                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">Persistence Cluster</h4>
+                  <h4 className="text-sm font-bold text-white tracking-wide mt-0.5">Data Persistence Layer</h4>
                 </div>
               </div>
               <div className="flex items-center gap-2 pr-1">
-                {getTechIcon('MongoDB', 'w-4.5 h-4.5')}
                 {getTechIcon('MySQL', 'w-4.5 h-4.5')}
-                <Server className="w-4.5 h-4.5 text-zinc-400" />
+                {getTechIcon('PHP', 'w-4.5 h-4.5')}
+                {getTechIcon('Node.js', 'w-4.5 h-4.5')}
               </div>
             </motion.div>
           </div>
@@ -356,9 +356,10 @@ export default function Architecture() {
                 </h2>
 
                 <p className="text-zinc-400 mb-10 text-sm md:text-base leading-relaxed font-sans select-none">
-                  I engineer resilient, highly-scalable software architectures by cleanly decoupling
-                  front-end client systems from transaction-heavy API processors. My designs feature
-                  secure microservices gateway routing, health container virtualization, and high-performance database cluster configurations, ensuring zero-latency execution.
+                   I build full-stack web applications with clean separation of concerns — from
+                   server-rendered Next.js frontends and serverless API integrations, to structured
+                   relational databases. My current projects span PHP + MySQL platforms, Node.js
+                   + Express.js REST backends, and ongoing autonomous agent engineering.
                 </p>
 
                 {/* Stat Panels with counter roll-up */}
