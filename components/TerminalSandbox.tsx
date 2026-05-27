@@ -438,6 +438,7 @@ export default function TerminalSandbox() {
                 autoCorrect="off"
                 autoCapitalize="none"
                 spellCheck={false}
+                suppressHydrationWarning
               />
 
               <button 

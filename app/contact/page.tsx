@@ -21,6 +21,7 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [activeField, setActiveField] = useState<string | null>(null);
 
   // Blinking cursor state
@@ -37,13 +38,16 @@ function ContactForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
+    setSubmitError(null);
     setLogs([]);
 
+    // Cosmetic terminal log sequence — shown while the real API call runs in parallel.
+    // This gives the user immediate visual feedback that something is happening.
     const logSequence = [
       `[CONNECTING] Establishing secure handshake with DevCommand gateway...`,
       `[HANDSHAKE] TLS 1.3 session established // Cipher: TLS_AES_256_GCM_SHA384`,
@@ -55,23 +59,66 @@ function ContactForm() {
       `[TRANSMITTING] Routing via secure relays... 35%`,
       `[TRANSMITTING] Routing via secure relays... 74%`,
       `[TRANSMITTING] Routing via secure relays... 100%`,
-      `[SUCCESS] Signature verified. Transmission acknowledged by gateway.`,
-      `[SYS_LOG] Log entry recorded successfully at UNIX epoch: ${Math.floor(Date.now() / 1000)}.`
     ];
 
+    // Start the cosmetic log animation
     let currentLogIndex = 0;
-    const interval = setInterval(() => {
+    const logInterval = setInterval(() => {
       if (currentLogIndex < logSequence.length) {
         setLogs(prev => [...prev, logSequence[currentLogIndex]]);
         currentLogIndex++;
       } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsSuccess(true);
-          setIsSubmitting(false);
-        }, 600);
+        clearInterval(logInterval);
       }
     }, 280);
+
+    try {
+      // Real API call — sends the form data to our Next.js serverless route,
+      // which uses Resend to deliver the email to the owner's inbox.
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      // Clear the log interval in case the API responded before it finished
+      clearInterval(logInterval);
+
+      if (!response.ok || !result.success) {
+        // API returned an error — show it to the user
+        setLogs(prev => [...prev, `[ERROR] Transmission failed: ${result.error || 'Unknown error'}`]);
+        setTimeout(() => {
+          setSubmitError(result.error || 'Something went wrong. Please try again.');
+          setIsSubmitting(false);
+          setLogs([]);
+        }, 1200);
+        return;
+      }
+
+      // Success — show the final log line then transition to success screen
+      setLogs(prev => [
+        ...prev,
+        `[SUCCESS] Signature verified. Transmission acknowledged by gateway.`,
+        `[SYS_LOG] Log entry recorded successfully at UNIX epoch: ${Math.floor(Date.now() / 1000)}.`
+      ]);
+
+      setTimeout(() => {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+      }, 900);
+
+    } catch {
+      // Network-level error (no internet, server totally down, etc.)
+      clearInterval(logInterval);
+      setLogs(prev => [...prev, `[ERROR] Network failure — could not reach gateway.`]);
+      setTimeout(() => {
+        setSubmitError('Network error. Please check your connection and try again.');
+        setIsSubmitting(false);
+        setLogs([]);
+      }, 1200);
+    }
   };
 
   const handleReset = () => {
@@ -83,6 +130,7 @@ function ContactForm() {
     });
     setIsSuccess(false);
     setIsSubmitting(false);
+    setSubmitError(null);
     setLogs([]);
   };
 
@@ -205,20 +253,28 @@ function ContactForm() {
                   </div>
                 )}
               </div>
-            </div>
+              {/* Error message — shown if the API call fails */}
+              {submitError && (
+                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-red-500/8 border border-red-500/20 font-mono text-xs text-red-400">
+                  <span className="shrink-0 mt-0.5">✕</span>
+                  <span>{submitError}</span>
+                </div>
+              )}
 
-            {/* Submit button with interactive prompt */}
-            <div className="flex justify-end pt-4">
-              <button
-                type="submit"
-                className="bg-zinc-800 hover:bg-zinc-700/80 border border-white/10 text-white font-mono text-xs font-bold tracking-wider uppercase px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 group cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(var(--portfolio-accent),0.15)] hover:border-portfolio-accent/30 active:scale-[0.98]"
-              >
-                <span>Send Message</span>
-                <span className="text-portfolio-accent group-hover:translate-x-1 transition-transform duration-300">
-                  ssh://
-                </span>
-                <ChevronRight className="w-3.5 h-3.5 text-portfolio-accent" />
-              </button>
+              {/* Submit button with interactive prompt */}
+              <div className="flex justify-end pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-zinc-800 hover:bg-zinc-700/80 border border-white/10 text-white font-mono text-xs font-bold tracking-wider uppercase px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 group cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(var(--portfolio-accent),0.15)] hover:border-portfolio-accent/30 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span>Send Message</span>
+                  <span className="text-portfolio-accent group-hover:translate-x-1 transition-transform duration-300">
+                    ssh://
+                  </span>
+                  <ChevronRight className="w-3.5 h-3.5 text-portfolio-accent" />
+                </button>
+              </div>
             </div>
           </motion.form>
         ) : isSubmitting ? (
