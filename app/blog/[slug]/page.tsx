@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Calendar, Clock, Sparkles, BookOpen, ChevronRight, Link as LinkIcon, Check } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Sparkles, BookOpen, ChevronRight, Link as LinkIcon, Check, Eye } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import { techStack } from "@/lib/tech-data";
 
@@ -135,9 +135,80 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // Metrics telemetry state
+  const [views, setViews] = useState<number | null>(null);
+  const [claps, setClaps] = useState<number | null>(null);
+  const [userClaps, setUserClaps] = useState<number>(0);
+
   React.useEffect(() => {
     setShareUrl(window.location.href);
   }, []);
+
+  // Fetch telemetry metrics and record dynamic page views once on mount
+  React.useEffect(() => {
+    if (!post) return;
+
+    // Load initial views and claps
+    fetch(`/api/blog/${post.slug}/metrics`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setViews(data.views);
+          setClaps(data.claps);
+        }
+      })
+      .catch(err => console.error('Failed to load blog metrics:', err));
+
+    // Register active page view
+    fetch(`/api/blog/${post.slug}/metrics`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'view' })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setViews(data.views);
+        }
+      })
+      .catch(err => console.error('Failed to dispatch page view telemetry:', err));
+
+    // Load previously recorded session claps from localStorage
+    try {
+      const stored = localStorage.getItem(`blog_claps:${post.slug}`);
+      if (stored) {
+        setUserClaps(parseInt(stored, 10));
+      }
+    } catch (e) {}
+  }, [post]);
+
+  // Handle claps with optimistic local increment and session-based caps
+  const handleClapClick = async () => {
+    if (!post || userClaps >= 10) return;
+
+    // Optimistic UI updates
+    setClaps(prev => (prev !== null ? prev + 1 : 1));
+    const nextUserClaps = userClaps + 1;
+    setUserClaps(nextUserClaps);
+
+    try {
+      localStorage.setItem(`blog_claps:${post.slug}`, nextUserClaps.toString());
+    } catch (e) {}
+
+    try {
+      const response = await fetch(`/api/blog/${post.slug}/metrics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'clap' })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setClaps(data.claps);
+      }
+    } catch (err) {
+      console.error('Failed to submit clap telemetry:', err);
+    }
+  };
 
   // SEO document title dynamic sync
   React.useEffect(() => {
@@ -252,6 +323,18 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
               <Clock className="w-4 h-4 text-zinc-500" />
               <span>{post.readTime} reading duration</span>
             </div>
+            {views !== null && (
+              <div className="flex items-center gap-2">
+                <Eye className="w-4 h-4 text-zinc-500" />
+                <span>{views} read {views === 1 ? 'view' : 'views'}</span>
+              </div>
+            )}
+            {claps !== null && (
+              <div className="flex items-center gap-2">
+                <span className="text-portfolio-accent text-sm leading-none">👏</span>
+                <span>{claps} {claps === 1 ? 'clap' : 'claps'}</span>
+              </div>
+            )}
           </div>
         </header>
 
@@ -304,6 +387,52 @@ export default function BlogPostDetailPage({ params }: { params: Promise<{ slug:
             }
           })}
         </article>
+
+        {/* ================= INTERACTIVE CLAPPER WIDGET ================= */}
+        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col items-center text-center">
+          <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest mb-4">
+            Show your appreciation
+          </p>
+          
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleClapClick}
+            disabled={userClaps >= 10}
+            className={`w-20 h-20 rounded-full border border-white/10 flex flex-col items-center justify-center relative transition-all duration-300 ${
+              userClaps > 0 
+                ? 'bg-portfolio-accent/15 border-portfolio-accent/30 text-portfolio-accent shadow-[0_0_20px_rgba(var(--portfolio-accent),0.1)]' 
+                : 'bg-zinc-900/35 hover:bg-zinc-900/60 hover:border-white/20 text-zinc-400 hover:text-white'
+            } cursor-pointer group disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {/* Clap emoji */}
+            <span className="text-3xl filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] group-hover:animate-bounce">👏</span>
+            <AnimatePresence>
+              {userClaps > 0 && (
+                <motion.span
+                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                  className="absolute -top-3 px-2 py-0.5 rounded-full bg-portfolio-accent text-black font-mono font-bold text-[9px] shadow-md select-none pointer-events-none"
+                >
+                  +{userClaps}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+
+          {claps !== null && (
+            <p className="text-zinc-400 text-sm mt-3 font-sans font-medium">
+              {claps} {claps === 1 ? 'clap' : 'claps'} from readers
+            </p>
+          )}
+
+          {userClaps >= 10 && (
+            <p className="text-portfolio-accent text-[9px] font-mono mt-1.5 uppercase tracking-wider animate-pulse">
+              Maximum session claps reached (10 claps). Thank you.
+            </p>
+          )}
+        </div>
 
         {/* ================= POST SHARE PORTAL ================= */}
         <div className="mt-12 p-6 md:p-8 bg-zinc-900/20 border border-white/5 rounded-3xl backdrop-blur-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
