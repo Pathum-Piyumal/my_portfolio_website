@@ -15,8 +15,8 @@ export function middleware(req: NextRequest) {
     pathname.startsWith('/api/wakatime') ||
     pathname.startsWith('/api/projects')
   ) {
-    // Resolve secure client IP
-    const ip = req.ip || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
+    // Resolve secure client IP (cast req to any for type safety in strict TS modes)
+    const ip = (req as any).ip || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
     const now = Date.now();
 
     const isContactRoute = pathname.startsWith('/api/contact');
