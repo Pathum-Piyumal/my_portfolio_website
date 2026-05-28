@@ -8,6 +8,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // The email address where you want to receive contact form messages
 const OWNER_EMAIL = process.env.CONTACT_EMAIL || 'pathumpiyumal013@gmail.com';
 
+// The verified custom sender email from your Resend account (if you've configured a custom domain)
+// If not provided, it defaults to Resend's default onboarding address 'onboarding@resend.dev'
+const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
 // ---------------------------------------------------------------------------
 // POST /api/contact
 // Called by the contact form when the user clicks "Send Message".
@@ -16,6 +20,19 @@ const OWNER_EMAIL = process.env.CONTACT_EMAIL || 'pathumpiyumal013@gmail.com';
 // ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   try {
+    // 0. Check if Resend API key is configured
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || apiKey === 're_your_api_key_here') {
+      console.error('[Contact API] Error: RESEND_API_KEY is not configured in .env.local.');
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Resend API key is not configured. Please add a valid RESEND_API_KEY to your .env.local file and restart the development server.' 
+        },
+        { status: 500 }
+      );
+    }
+
     // 1. Parse the request body sent from the frontend form
     const body = await req.json();
     const { name, email, subject, message } = body;
@@ -160,32 +177,54 @@ export async function POST(req: NextRequest) {
       </html>
     `;
 
-    // 5. Send BOTH emails concurrently using Promise.all for efficiency
+    // 5. Send emails
     //    - Email 1: Notification to YOU (the owner)
-    //    - Email 2: Auto-reply confirmation to the sender
-    const [ownerResult, replyResult] = await Promise.all([
+    //    - Email 2: Auto-reply confirmation to the sender (only sent if not in sandbox mode or if sender is the owner)
+    const isSandbox = RESEND_FROM_EMAIL.includes('onboarding@resend.dev');
+    const canSendAutoReply = !isSandbox || (cleanEmail === OWNER_EMAIL.toLowerCase());
+
+    const emailPromises = [
       resend.emails.send({
-        from: 'Portfolio Contact <onboarding@resend.dev>', // Use this until you verify a custom domain
+        from: `Portfolio Contact <${RESEND_FROM_EMAIL}>`,
         to: [OWNER_EMAIL],
         replyTo: cleanEmail,                               // So clicking Reply in Gmail goes to the sender
         subject: `[Portfolio] ${cleanSubject} — from ${cleanName}`,
         html: ownerEmailHtml,
-      }),
-      resend.emails.send({
-        from: 'Pathum Piyumal <onboarding@resend.dev>',
-        to: [cleanEmail],
-        subject: `Message received: "${cleanSubject}"`,
-        html: senderAutoReplyHtml,
-      }),
-    ]);
+      })
+    ];
 
-    // 6. Check if either email failed (Resend returns an error object on failure)
+    if (canSendAutoReply) {
+      emailPromises.push(
+        resend.emails.send({
+          from: `Pathum Piyumal <${RESEND_FROM_EMAIL}>`,
+          to: [cleanEmail],
+          subject: `Message received: "${cleanSubject}"`,
+          html: senderAutoReplyHtml,
+        })
+      );
+    } else {
+      console.log('[Contact API] Sandbox mode detected: skipping auto-reply to visitor to prevent Resend rejection. To enable, verify a custom domain in Resend and set RESEND_FROM_EMAIL.');
+    }
+
+    const results = await Promise.all(emailPromises);
+    const ownerResult = results[0];
+    const replyResult = canSendAutoReply ? results[1] : null;
+
+    // 6. Check if the primary email failed (Resend returns an error object on failure)
     if (ownerResult.error) {
       console.error('[Contact API] Failed to send notification email:', ownerResult.error);
       return NextResponse.json(
-        { success: false, error: 'Email delivery failed. Please try again.' },
+        { 
+          success: false, 
+          error: `Email delivery failed: ${ownerResult.error.message || 'Please check your API key.'}` 
+        },
         { status: 500 }
       );
+    }
+
+    // Log if the auto-reply failed for debugging, but don't fail the primary transmission
+    if (replyResult && replyResult.error) {
+      console.warn('[Contact API] Notification email delivered, but auto-reply to visitor failed:', replyResult.error);
     }
 
     // Log success for debugging (only visible in your server logs, not the browser)
