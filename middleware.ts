@@ -14,7 +14,8 @@ export function middleware(req: NextRequest) {
     pathname.startsWith('/api/github') ||
     pathname.startsWith('/api/wakatime') ||
     pathname.startsWith('/api/projects') ||
-    pathname.startsWith('/api/telemetry/resume')
+    pathname.startsWith('/api/telemetry/resume') ||
+    (pathname.startsWith('/api/blog/') && pathname.endsWith('/metrics'))
   ) {
     // Resolve secure client IP (cast req to any for type safety in strict TS modes)
     const ip = (req as any).ip || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
