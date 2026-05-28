@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend client with API key from environment variable.
-// IMPORTANT: This key is only ever read server-side — it's never exposed to the browser.
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// The email address where you want to receive contact form messages
-const OWNER_EMAIL = process.env.CONTACT_EMAIL || 'pathumpiyumal013@gmail.com';
-
 // ---------------------------------------------------------------------------
 // POST /api/contact
 // Called by the contact form when the user clicks "Send Message".
@@ -16,6 +9,28 @@ const OWNER_EMAIL = process.env.CONTACT_EMAIL || 'pathumpiyumal013@gmail.com';
 // ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   try {
+    // 0. Check if Resend API key is configured
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || apiKey === 're_your_api_key_here') {
+      console.error('[Contact API] Error: RESEND_API_KEY is not configured in .env.local.');
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Resend API key is not configured. Please add a valid RESEND_API_KEY to your .env.local file and restart the development server.' 
+        },
+        { status: 500 }
+      );
+    }
+
+    // Resolve configuration values dynamically to support env hot-reloading
+    const ownerEmail = process.env.CONTACT_EMAIL || 'pathumpiyumal013@gmail.com';
+    let fromEmail = process.env.RESEND_FROM_EMAIL;
+    if (!fromEmail || fromEmail.trim() === '' || !fromEmail.includes('@')) {
+      fromEmail = 'onboarding@resend.dev';
+    }
+
+    const resend = new Resend(apiKey);
+
     // 1. Parse the request body sent from the frontend form
     const body = await req.json();
     const { name, email, subject, message } = body;
@@ -111,85 +126,29 @@ export async function POST(req: NextRequest) {
       </html>
     `;
 
-    // 4. Build the auto-reply HTML sent back to the person who messaged you
-    const senderAutoReplyHtml = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e4e4e7; margin: 0; padding: 0; }
-          .container { max-width: 560px; margin: 40px auto; background: #111111; border: 1px solid #27272a; border-radius: 16px; overflow: hidden; }
-          .header { background: linear-gradient(135deg, #1a1a1a 0%, #111111 100%); padding: 36px; border-bottom: 1px solid #27272a; text-align: center; }
-          .icon { width: 52px; height: 52px; background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.25); border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 24px; }
-          .header h1 { margin: 0 0 8px; font-size: 22px; font-weight: 700; color: #fff; }
-          .header p { margin: 0; font-size: 14px; color: #71717a; }
-          .body { padding: 36px; }
-          .body p { font-size: 14px; line-height: 1.85; color: #a1a1aa; margin: 0 0 16px; }
-          .highlight { color: #e4e4e7; font-weight: 500; }
-          .quote-box { background: #0a0a0a; border-left: 3px solid #a855f7; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 24px 0; }
-          .quote-box p { font-size: 13px; font-style: italic; color: #71717a; margin: 0; white-space: pre-wrap; }
-          .footer { background: #0d0d0d; border-top: 1px solid #27272a; padding: 20px 36px; text-align: center; }
-          .footer p { font-family: 'Courier New', monospace; font-size: 11px; color: #52525b; margin: 0 0 4px; }
-          .accent { color: #a855f7; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <div class="icon">✓</div>
-            <h1>Message Received!</h1>
-            <p>Your transmission was logged successfully.</p>
-          </div>
-          <div class="body">
-            <p>Hi <span class="highlight">${cleanName}</span>,</p>
-            <p>Thank you for reaching out! Your message has been received and I'll get back to you within <span class="highlight">24–48 hours</span>.</p>
-            <p>Here's a copy of what you sent:</p>
-            <div class="quote-box">
-              <p>${cleanMessage}</p>
-            </div>
-            <p>If you need to follow up sooner, feel free to connect with me directly on <a href="https://www.linkedin.com/in/pathum-piyumal-kumarathunga-48185b32b/" style="color: #a855f7; text-decoration: none;">LinkedIn</a> or check out my work on <a href="https://github.com/Pathum-Piyumal" style="color: #a855f7; text-decoration: none;">GitHub</a>.</p>
-            <p style="margin-top: 24px;">Best regards,<br/><span class="highlight">Pathum Piyumal</span><br/><span style="color: #71717a; font-size: 13px;">Software Engineer · RMPK.dev</span></p>
-          </div>
-          <div class="footer">
-            <p><span class="accent">RMPK.dev</span> · Portfolio Contact System</p>
-            <p>This is an automated acknowledgement — please do not reply to this email.</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
+    // 4. Send notification email to the owner
+    const sendResult = await resend.emails.send({
+      from: `Portfolio Contact <${fromEmail}>`,
+      to: [ownerEmail],
+      replyTo: cleanEmail,                               // So clicking Reply in Gmail goes to the sender
+      subject: `[Portfolio] ${cleanSubject} — from ${cleanName}`,
+      html: ownerEmailHtml,
+    });
 
-    // 5. Send BOTH emails concurrently using Promise.all for efficiency
-    //    - Email 1: Notification to YOU (the owner)
-    //    - Email 2: Auto-reply confirmation to the sender
-    const [ownerResult, replyResult] = await Promise.all([
-      resend.emails.send({
-        from: 'Portfolio Contact <onboarding@resend.dev>', // Use this until you verify a custom domain
-        to: [OWNER_EMAIL],
-        replyTo: cleanEmail,                               // So clicking Reply in Gmail goes to the sender
-        subject: `[Portfolio] ${cleanSubject} — from ${cleanName}`,
-        html: ownerEmailHtml,
-      }),
-      resend.emails.send({
-        from: 'Pathum Piyumal <onboarding@resend.dev>',
-        to: [cleanEmail],
-        subject: `Message received: "${cleanSubject}"`,
-        html: senderAutoReplyHtml,
-      }),
-    ]);
-
-    // 6. Check if either email failed (Resend returns an error object on failure)
-    if (ownerResult.error) {
-      console.error('[Contact API] Failed to send notification email:', ownerResult.error);
+    // 5. Check if the email failed
+    if (sendResult.error) {
+      console.error('[Contact API] Failed to send notification email:', sendResult.error);
       return NextResponse.json(
-        { success: false, error: 'Email delivery failed. Please try again.' },
+        { 
+          success: false, 
+          error: `Email delivery failed: ${sendResult.error.message || 'Please check your API key.'}` 
+        },
         { status: 500 }
       );
     }
 
     // Log success for debugging (only visible in your server logs, not the browser)
-    console.log(`[Contact API] Message from ${cleanEmail} delivered. ID: ${ownerResult.data?.id}`);
+    console.log(`[Contact API] Message from ${cleanEmail} delivered. ID: ${sendResult.data?.id}`);
 
     // 7. Return success response to the frontend
     return NextResponse.json({

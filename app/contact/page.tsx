@@ -65,8 +65,12 @@ function ContactForm() {
     let currentLogIndex = 0;
     const logInterval = setInterval(() => {
       if (currentLogIndex < logSequence.length) {
-        setLogs(prev => [...prev, logSequence[currentLogIndex]]);
+        // Capture the entry VALUE immediately — do NOT pass logSequence[currentLogIndex]
+        // inside the functional updater, because React may defer the update and by then
+        // currentLogIndex will have been incremented, causing undefined to be read.
+        const entry = logSequence[currentLogIndex];
         currentLogIndex++;
+        setLogs(prev => [...prev, entry]);
       } else {
         clearInterval(logInterval);
       }
@@ -287,13 +291,13 @@ function ContactForm() {
             className="flex flex-col bg-zinc-950 border border-white/5 rounded-2xl p-6 min-h-[380px] font-mono text-xs leading-relaxed justify-between relative shadow-inner"
           >
             <div className="space-y-2.5 overflow-y-auto max-h-[300px] scrollbar-thin scrollbar-thumb-zinc-800">
-              {logs.map((log, index) => (
+              {logs.filter((log): log is string => typeof log === 'string').map((log, index) => (
                 <motion.div 
                   key={index} 
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.15 }}
-                  className={`${log.includes('[SUCCESS]') ? 'text-emerald-400 font-bold' : log.includes('[VALIDATING]') ? 'text-blue-400' : log.includes('[CONNECTING]') || log.includes('[HANDSHAKE]') ? 'text-zinc-400' : log.includes('[ENCRYPTING]') ? 'text-yellow-400' : 'text-zinc-300'}`}
+                  className={`${log.includes('[SUCCESS]') ? 'text-emerald-400 font-bold' : log.includes('[ERROR]') ? 'text-red-400 font-bold' : log.includes('[VALIDATING]') ? 'text-blue-400' : log.includes('[CONNECTING]') || log.includes('[HANDSHAKE]') ? 'text-zinc-400' : log.includes('[ENCRYPTING]') ? 'text-yellow-400' : 'text-zinc-300'}`}
                 >
                   {log}
                 </motion.div>
