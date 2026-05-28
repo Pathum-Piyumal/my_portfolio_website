@@ -13,19 +13,30 @@ export function middleware(req: NextRequest) {
     pathname.startsWith('/api/contact') ||
     pathname.startsWith('/api/github') ||
     pathname.startsWith('/api/wakatime') ||
-    pathname.startsWith('/api/projects')
+    pathname.startsWith('/api/projects') ||
+    pathname.startsWith('/api/telemetry/resume')
   ) {
     // Resolve secure client IP (cast req to any for type safety in strict TS modes)
     const ip = (req as any).ip || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
     const now = Date.now();
 
     const isContactRoute = pathname.startsWith('/api/contact');
+    const isResumeTelemetry = pathname.startsWith('/api/telemetry/resume');
     
-    // Set 5 minutes window for the contact form, 1 minute for telemetry endpoints
-    const windowMs = isContactRoute ? 5 * 60 * 1000 : 60 * 1000;
+    // Set windows and limit thresholds
+    let windowMs = 60 * 1000;
+    let maxRequests = 15;
+    let limitLabel = '1 minute';
     
-    // Max 3 requests for the contact form, 15 for telemetry endpoints
-    const maxRequests = isContactRoute ? 3 : 15;
+    if (isContactRoute) {
+      windowMs = 5 * 60 * 1000;
+      maxRequests = 3;
+      limitLabel = '5 minutes';
+    } else if (isResumeTelemetry) {
+      windowMs = 10 * 60 * 1000;
+      maxRequests = 5;
+      limitLabel = '10 minutes';
+    }
 
     const ipKey = `${ip}:${pathname}`;
     
@@ -38,7 +49,7 @@ export function middleware(req: NextRequest) {
       return new NextResponse(
         JSON.stringify({
           success: false,
-          error: `Too many requests. Please wait before trying again. (Limit: ${maxRequests} requests per ${isContactRoute ? '5 minutes' : '1 minute'})`
+          error: `Too many requests. Please wait before trying again. (Limit: ${maxRequests} requests per ${limitLabel})`
         }),
         {
           status: 429,
